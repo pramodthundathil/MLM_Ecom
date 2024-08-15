@@ -1,0 +1,63 @@
+{% extends 'index.html' %}{% load static %}{% block content %}
+
+    <div class="container py-6 bg-light">
+        <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s"
+            style="max-width: 500px;">
+            <h1 class="h3 mb-3">Freanchise Request</h1>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-6 col-md-12 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="bg-white text-center h-100 p-4 p-xl-5">
+
+                    <h5 class="mb-3 text-primary">My Franchise</h5>
+                    {% for message in messages %}
+
+            <div class="alert {{message.tags}} alert-dismissible fade show" role="alert">
+                <strong></strong> {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+
+
+            {% if request.user.role == "user" %}
+                    {%if frachise_req == "You Dont Have Any Franchise or Request" %}
+                    <h5>You Dont Have Any Franchise or Request</h5>
+                    {% else %}
+                    <h5>You Have {{frachise_req}}</h5>
+                    <a href="{%url 'delete_franchise_request' frachise_req.id %}" class="text-secondary" style="text-decoration: underline;">delete request</a>
+                    {% endif %}
+            {% else %}
+            <h1 class="text-primary">You are an {{request.user.role}}</h1>
+            <a href="" class="text-warning" style="text-decoration: underline;">Go to Dash Board</a>
+            {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="bg-white text-center h-100 p-4 p-xl-5">
+
+                    <h5 class="mb-3 text-primary">Request Franchise</h5>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-floating">
+                            <select id="" class="form-control" name="franchise">
+                                <option value="" disabled selected>Nothing Selected</option>
+                                <option value="central_franchise">Central Franchise</option>
+                                <option value="district_franchise">District Franchise</option>
+                                <option value="zonel_franchise">Zonel Franchise</option>
+                                <option value="mobile_franchise">Mobile Franchise</option>
+                            </select>
+                            <label for="">Select Franchise</label>
+                        </div>
+                        <button class="btn btn-outline-primary mt-3" type="submit">Sent Request</button>
+                    </form>
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+    {% endblock %}
