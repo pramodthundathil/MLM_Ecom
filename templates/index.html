@@ -82,14 +82,13 @@
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
                 <li class="active"><a href="{%url 'Index' %}">Home</a></li>
-                <li><a href="{%url 'Products' %}">Shop</a></li>
-                <li><a href="#">Purchases</a>
-                    <ul class="header__menu__dropdown">
-                        <li><a href="{%url 'myorders' %}">My Orders</a></li>
-                        <li><a href="{%url 'Cart_Page' %}">Shoping Cart</a></li>
-                        
-                    </ul>
-                </li>
+                <li><a href="{%url 'ProductList' %}">Products</a></li>
+                            <li><a href="#">Purchase</a>
+                                <ul class="header__menu__dropdown">
+                                    <li><a href="{%url 'myorders' %}">My Order</a></li>
+                                    <li><a href="{%url 'Cart_Page' %}">Shoping Cart</a></li>
+                                </ul>
+                            </li>
                 
                 <li><a href="./contact.html">Contact</a></li>
             </ul>
