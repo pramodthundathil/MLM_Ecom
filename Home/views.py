@@ -17,6 +17,9 @@ from ecom.models import *
 from django.contrib.auth.decorators import login_required
 
 
+def Landingpage(request):
+    return render(request,"landingpage.html")
+
 @login_required(login_url='SignIn')
 def SentRefrelLink(request):
     if request.method == "POST":
