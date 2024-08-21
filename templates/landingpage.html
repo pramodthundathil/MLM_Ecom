@@ -25,6 +25,19 @@
     <link rel="stylesheet" href="{%static 'css/owl.carousel.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{%static 'css/slicknav.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{%static 'css/style.css' %}" type="text/css">
+    <style>
+        .val img{
+            width: 10%;
+            width: 20%;
+        }
+        @media (max-width:720px) {
+            .val img{
+            width: 20%;
+            width: 30%;
+        }
+            
+        }
+    </style>
     
 </head>
 <body>
@@ -33,10 +46,14 @@
         <div class="loader"></div>
     </div>
 
-    <div class="text-center">
-
-        <img src="/static/img/adcos-logo.png" alt="">
-        <h1 class="text-secondory">This Site is Under Constraction</h1>
+    <div class="text-center mt-5 val">
+        
+            
+        <img src="{%static 'img/adcos-logo.png' %}" alt="">
+            
+        <img src="{%static 'img/ADOCS_SMART.jpg' %}" alt="">
+                 
+        <h2 class="text-secondory mt-5">This Site is Under Constraction</h2>
         <h3 class="text-primary">Comming soon.........</h3><br>
         <a href="https://www.dses.org.in/">Go back</a>
     </div>
