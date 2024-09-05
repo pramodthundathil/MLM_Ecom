@@ -25,6 +25,12 @@
     <link rel="stylesheet" href="{%static 'css/owl.carousel.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{%static 'css/slicknav.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{%static 'css/style.css' %}" type="text/css">
+    <style>
+        .second-nav-item{
+            border-right: 1px solid rgb(154, 153, 153);
+            border-left: 1px solid rgb(154, 153, 153);
+        }
+    </style>
     
 </head>
 
@@ -53,8 +59,10 @@
                 <div>English</div>
                 <span class="arrow_carrot-down"></span>
                 <ul>
-                    <!-- <li><a href="#">Spanis</a></li> -->
                     <li><a href="#">English</a></li>
+                    <li><a href="#">മലയാളം</a></li>
+                    <li><a href="#">தமிழ்</a></li>
+
                 </ul>
             </div>
             <div class="header__top__right__auth">
@@ -139,6 +147,9 @@
                                 <ul>
                                     <!-- <li><a href="#">Spanis</a></li> -->
                                     <li><a href="#">English</a></li>
+                                    <li><a href="#">മലയാളം</a></li>
+                                    <li><a href="#">தமிழ்</a></li>
+
                                 </ul>
                             </div>
                             <div class="header__top__right__auth">
@@ -208,6 +219,28 @@
             </div>
         </div>
     </header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary text-white mb-3 text-center" style="padding-top: 0px !important;padding-bottom: 0px !important;">
+        <div class="container-fluid">
+            <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link second-nav-item text-white" aria-current="page" href="{% url 'Landingpage' %}">Adcos Fresh</a>
+                    <a class="nav-link second-nav-item text-white" href="{% url 'Landingpage' %}">Adcos Home TV</a>
+                    <a class="nav-link second-nav-item text-white" href="{% url 'Landingpage' %}">Adcos Pay</a>
+                    <a class="nav-link second-nav-item text-white" href="{% url 'Landingpage' %}">Gift Vouchers/ Coupons</a>
+                    <a class="nav-link second-nav-item text-white" href="{% url 'Landingpage' %}">New Arrivals</a>
+                    <a class="nav-link second-nav-item text-white" href="{% url 'Landingpage' %}">Todays Market</a>
+                    <a class="nav-link second-nav-item text-white" href="{% url 'Landingpage' %}">Electronic Vehicles</a>
+                    <a class="nav-link second-nav-item text-white" href="{% url 'Landingpage' %}">Mobile and Computers</a>
+                    <a class="nav-link second-nav-item text-white" href="{% url 'Landingpage' %}">International Brands</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
     <!-- Header Section End -->
      {% block content %}
 
@@ -228,8 +261,8 @@
                             <li><a href="#">Groceries</a></li>
                             <li><a href="#">Household</a></li>
 
-                            <li><a href="#">Butter & Eggs</a></li>
-                            <li><a href="#">Fastfood</a></li>
+                            <li><a href="#">Adcos Essential</a></li>
+                            <li><a href="#">Electricals and Electronics</a></li>
                             <li><a href="#">Fresh Onion</a></li>
                             <li><a href="#">Papayaya & Crisps</a></li>
                             <li><a href="#">Oatmeal</a></li>

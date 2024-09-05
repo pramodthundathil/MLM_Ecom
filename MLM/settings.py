@@ -36,6 +36,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -77,6 +78,31 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# django language settings
+
+# Enable Django's i18n
+USE_I18N = True
+
+# Available languages
+LANGUAGES = [
+    ('en', 'English'),
+    ('ml', 'Malayalam'),
+    ('hd', 'Hindi'),
+    ('kn', 'Kanada'),
+    ('tm', 'Tamil'),
+    # Add other languages as needed
+]
+
+# Path to translation files
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
+
+
+# Set the default language
+LANGUAGE_CODE = 'en'
+
 
 
 # Password validation
