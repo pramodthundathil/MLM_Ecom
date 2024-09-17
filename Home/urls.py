@@ -2,8 +2,8 @@ from django.urls import path
 from .import views 
 
 urlpatterns = [
-    path("",views.Landingpage,name="Landingpage"),
-    path("Index",views.Index,name="Index"),
+    path("Landingpage",views.Landingpage,name="Landingpage"),
+    path("",views.Index,name="Index"),
     path("SignUp/<str:token>",views.SignUp,name="SignUp"),
     path("SignIn",views.SignIn,name="SignIn"),
     path("about",views.about,name="about"),

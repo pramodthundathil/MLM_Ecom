@@ -3,6 +3,7 @@
 from pathlib import Path
 import os
 from django.contrib.messages import constants as messages
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -14,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-t=4+=dm3z+f+8x-8sw^7e$7m*g_fn=u*iv=zt)hx^h%f@l4)l%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -31,6 +32,7 @@ INSTALLED_APPS = [
     "Geneology",
     "Home",
     'ecom',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -78,6 +80,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+database = "postgres://koyeb-adm:dwy7E4jQNqVX@ep-plain-wind-a2dg3t13.eu-central-1.pg.koyeb.app/adcos_db"
+DATABASES["default"] = dj_database_url.parse(database)
 
 # django language settings
 
@@ -156,3 +160,16 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'ecartshoppingtest@gmail.com'
 EMAIL_HOST_PASSWORD = 'annsizhjwccpztrj'
+
+AWS_ACCESS_KEY_ID = "AKIAWLVNT2SP6S67MX6Z"
+
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = 'adcos'
+AWS_S3_SIGNATURE_NAME = 's3v4',
+AWS_S3_REGION_NAME = 'ap-south-1'
+AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAULT_ACL =  None
+AWS_S3_VERIFY = True
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
