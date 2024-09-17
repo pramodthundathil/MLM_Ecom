@@ -17,5 +17,8 @@ urlpatterns = [
     path("myorders",views.myorders,name="myorders"),
     path("OrderPlaced",views.OrderPlaced,name="OrderPlaced"),
     path("Deleteoreder/<int:pk>",views.Deleteoreder,name="Deleteoreder"),
-    path("MakeCashOnDelivery/<int:pk>",views.MakeCashOnDelivery,name="MakeCashOnDelivery")
+    path("MakeCashOnDelivery/<int:pk>",views.MakeCashOnDelivery,name="MakeCashOnDelivery"),
+    path("ProductSingleView/<int:pk>",views.ProductSingleView,name="ProductSingleView"),
+    path("Deleteproduct/<int:pk>",views.Deleteproduct, name="Deleteproduct"),
+    path("Suppliers",views.Suppliers, name="Suppliers"),
 ]

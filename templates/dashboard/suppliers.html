@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div class="row justify-content-center">
         <div class="col-12">
-          <h2 class="mb-2 page-title">Frachaises Requests</h2>
+          <h2 class="mb-2 page-title">Suppliers</h2>
          
           <!-- <p class="card-text">DataTables is a plug-in for the jQuery Javascript library. It is a highly flexible tool, built upon the foundations of progressive enhancement, that adds all of these advanced features to any HTML table. </p> -->
           <div class="row my-4">
@@ -23,8 +23,37 @@
                     </div>
                     <div class="col-auto">
                       
-                      <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#defaultModal"><span class="fe fe-filter fe-12 mr-2"></span>Create New Product</button> -->
+                      <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#defaultModal"><span class="fe fe-filter fe-12 mr-2"></span>Create New Supplier</button>
 
+                      <!-- Modal -->
+                      <div class="modal fade" id="defaultModal" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="defaultModalLabel">Add Supplier</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body"> 
+
+
+                                <!-- product adding form inside model stats  -->
+
+                                <form method="post" enctype="multipart/form-data" data-toggle="validator">
+                                    {% csrf_token %}
+                                    
+                                    <button type="submit" class="btn btn-primary mr-2">Add Supplier</button>
+                                    <button type="reset" class="btn btn-danger">Reset</button>
+                                </form>
+                                
+                                <!-- product adding form inside model end  -->
+
+                            </div>
+                            
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
             <!-- Small table -->
@@ -36,31 +65,36 @@
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>User</th>
-                        <th>Frachaise</th>
-                        <th>Date Of request</th>
-                      
-                        <th>Status</th>
+                        <th>Supplier name</th>
+                        <th>GST</th>
+                        <th>ADDRESS</th>
+                        <th>Product</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Stock</th>
                         <th>Action</th>
-                        
                       </tr>
                     </thead>
                     <tbody>
-                        {% for item in franchaise %}
+                        {% for item in product%}
                       <tr>
                         
                         <td>{{forloop.counter}}</td>
-                        <td>{{item.user}}</td>
-                        <td>{{item.frachise_type}}</td>
-                        <td>{{item.date}}</td>
-                       
-                        <td><span class="badge bg-warning">Not approved</span></td>
+                        <td>{{item.product_name}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.tax_amount}}</td>
+                        <td>{{item.product_BV}}</td>
+                        <td>{{item.description}}</td>
+                        <td>{{item.category}}</td>
+                        <td>{{item.stock}}</td>
                         <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="text-muted sr-only">Action</span>
                           </button>
                           <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="{%url 'FrachiseRequestSingleview' item.id%}">view</a>
-                            <a class="dropdown-item" href="{%url 'delete_franchise_request_admin' item.id %}">Remove</a>
+                            <a class="dropdown-item" href="{%url 'ProductSingleView' item.id%}">Edit</a>
+                            <a class="dropdown-item" href="{%url 'Deleteproduct' item.id %}" onclick="return confirm('Are you sure doyou want to delete ?')">Remove</a>
+                             <!-- Modal -->
+                      
                             
                           </div>
                         </td>

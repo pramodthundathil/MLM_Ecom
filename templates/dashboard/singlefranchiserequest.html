@@ -1,0 +1,48 @@
+{% extends 'dashboard/index.html'%}{% block admin %}
+<main role="main" class="main-content">
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-12">
+          <h2 class="mb-2 page-title">{{req}} by {{req.user.first_name}}</h2>
+        
+        
+
+        <div class="card mt-5">
+            <table class="table">
+                <tr>
+                    <th>Requested On </th>
+                    <td>
+                        {{req.date}}
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>Frachise Type</th>
+                    <td>{{req.frachise_type}}</td>
+                </tr>
+                <tr>
+                    <th>
+                    Member
+                </th>
+                <td>
+                    {{req.user.first_name}} {{req.user.last_name}}
+                    <a  href="{%url 'UsersingleViewAdmin' req.user.id %}">View User</a>
+                </td>
+                </tr>
+                <tr>
+                    <th>
+                        Action
+                    </th>
+                    <td>
+                        <a href="{%url 'Approve_franchise' req.id %}" class="btn btn-success btn-sm">Approve</a>
+                        <a href="{%url 'delete_franchise_request_admin' req.id %}" class="btn btn-danger btn-sm">Reject</a>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+      </div>
+    </div>
+</main>
+
+{% endblock %}

@@ -14,7 +14,7 @@ from Home.models import *
 
 @login_required(login_url='SignIn')
 def Products(request):
-    product = Product.objects.all()
+    product = Product.objects.filter(status = True)
     if request.method == 'POST':
         product_name = request.POST['name']
         product_sub_name = request.POST.get('sub_name', '')
@@ -77,7 +77,7 @@ def Products(request):
 
 
 def ProductList(request):
-    product = Product.objects.all()
+    product = Product.objects.filter(status = True)
 
     context = {
         "products":product
@@ -431,6 +431,68 @@ def MakeCashOnDelivery(request,pk):
 def OrderPlaced(request):
     return render(request, 'orderplaced.html')
 
+
+# admin functions-----------------------
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse
+from .models import Product, ProductCategory, Tax
+
+def ProductSingleView(request, pk):
+    # Fetch the product, categories, and taxes
+    product = get_object_or_404(Product, id=pk,status = True)
+    categories = ProductCategory.objects.all()
+    taxes = Tax.objects.all()
+
+    if request.method == 'POST':
+        try:
+            # Update product fields with form data
+            product.category_id = request.POST['category']
+            product.product_name = request.POST['product_name']
+            product.product_sub_name = request.POST.get('product_sub_name', product.product_sub_name)
+            product.price = float(request.POST['price'])
+            product.stock = int(request.POST['stock'])
+            product.description = request.POST.get('description', '')
+            product.status = request.POST['status'] == 'True'
+            product.stock_alert_value = float(request.POST.get('stock_alert_value', 0.0))
+            product.tax_value_id = request.POST.get('tax_value')
+
+            # Handle image uploads
+            if 'image_primary' in request.FILES:
+                product.image_primary = request.FILES['image_primary']
+            if 'image_s1' in request.FILES:
+                product.image_s1 = request.FILES['image_s1']
+            if 'image_s2' in request.FILES:
+                product.image_s2 = request.FILES['image_s2']
+
+            # Save the updated product
+            product.save()
+
+            # Redirect or send success message (optional)
+            return redirect('ProductSingleView', pk = pk)  # Redirect to product list or any other page
+        except Exception as e:
+            # Handle exceptions (e.g., missing fields, invalid data)
+            return HttpResponse(f"Error: {str(e)}")
+
+    # Render the product update form for GET requests
+    context = {
+        "product": product,
+        "categories": categories,
+        "taxes": taxes
+    }
+    return render(request, "dashboard/productupdate.html", context)
+
+
+def Deleteproduct(request,pk):
+    product = Product.objects.get(id = pk)
+    product.status = False
+    product.save()
+    messages.error(request,"product deleted....")
+    return redirect("Products")
+
+
+def Suppliers(request):
+    return render(request,"dashboard/suppliers.html")
 
     
 

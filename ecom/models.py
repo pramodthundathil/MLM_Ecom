@@ -104,7 +104,7 @@ class Cart(models.Model):
 class DeliveryAddress(models.Model):
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     first_name = models.CharField(max_length=20)
-    house_house = models.CharField(max_length=20)
+    house_house = models.CharField(max_length=20,null=True)
     Place = models.CharField(max_length=20)
     City = models.CharField(max_length=20)
     district  = models.CharField(max_length=20)

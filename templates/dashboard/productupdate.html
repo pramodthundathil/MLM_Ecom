@@ -1,0 +1,148 @@
+{% extends 'dashboard/index.html' %}
+{% load static %}
+{% block admin %}
+<link rel="stylesheet" href="{% static 'dashboard/css/dataTables.bootstrap4.css' %}">
+
+<main role="main" class="main-content">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12 p-3">
+                <h2 class="mb-2 page-title">Edit Product: {{ product.product_name }}</h2>
+                <a href="{%url 'Products' %}">back To all Products</a>
+                <div class="card p-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Category</th>
+                                <td>
+                                    <select name="category" class="form-control">
+                                        {% for category in categories %}
+                                        {% if category.id == product.category.id %}
+                                        <option value="{{ category.id }}" selected>
+                                            {{ category.name }}
+                                        </option>
+                                        {% endif %}
+                                        <option value="{{ category.id }}" >
+                                            {{ category.name }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Product Name</th>
+                                <td>
+                                    <input type="text" class="form-control" name="product_name"
+                                        value="{{ product.product_name }}" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Product Sub Name</th>
+                                <td>
+                                    <input type="text" class="form-control" name="product_sub_name"
+                                        value="{{ product.product_sub_name }}">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Price</th>
+                                <td>
+                                    <input type="number" step="0.01" class="form-control" name="price"
+                                        value="{{ product.price }}" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Stock</th>
+                                <td>
+                                    <input type="number" class="form-control" name="stock" value="{{ product.stock }}"
+                                        required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Description</th>
+                                <td>
+                                    <textarea class="form-control" name="description"
+                                        rows="4">{{ product.description }}</textarea>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Status</th>
+                                <td>
+                                    <select name="status" class="form-control">
+                                        <option value="True" {% if product.status %}selected{% endif %}>Active</option>
+                                        <option value="False" {% if not product.status %}selected{% endif %}>Inactive
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Stock Alert Value</th>
+                                <td>
+                                    <input type="number" step="0.01" class="form-control" name="stock_alert_value"
+                                        value="{{ product.stock_alert_value }}">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Primary Image</th>
+                                <td>
+                                    <input type="file" class="form-control" name="image_primary">
+                                    {% if product.image_primary %}
+                                    <img src="{{ product.image_primary.url }}" alt="{{ product.product_name }}"
+                                        width="150px">
+                                    {% endif %}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Secondary Image 1</th>
+                                <td>
+                                    <input type="file" class="form-control" name="image_s1">
+                                    {% if product.image_s1 %}
+                                    <img src="{{ product.image_s1.url }}" alt="{{ product.product_name }}"
+                                        width="150px">
+                                    {% endif %}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Secondary Image 2</th>
+                                <td>
+                                    <input type="file" class="form-control" name="image_s2">
+                                    {% if product.image_s2 %}
+                                    <img src="{{ product.image_s2.url }}" alt="{{ product.product_name }}"
+                                        width="150px">
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Tax Value</th>
+                                <td>
+                                    <select name="tax_value" class="form-control">
+                                        {% for tax in taxes %}
+                                        <option value="{{ tax.id }}">
+                                            {{ tax.tax_name }} ({{ tax.tax_percentage }}%)
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Update Product</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

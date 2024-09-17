@@ -105,7 +105,26 @@ def FrachiserequestAdmin(request):
     }
     return render(request,"dashboard/franchaiserequests.html",context)
 
+def FrachiseRequestSingleview(request,pk):
+    req  = Franchise_request.objects.get(id = pk)
+    context ={
+        "req":req
+    }
+    return render(request,'dashboard/singlefranchiserequest.html',context)
 
+def Approve_franchise(request,pk):
+    req  = Franchise_request.objects.get(id = pk)
+    member = req.user 
+    member.role = req.frachise_type
+    member.save()
+    req.delete()
+    messages.success(request,"Franchise Request approved")
+    return redirect("FrachiserequestAdmin")
+
+def delete_franchise_request_admin(request,pk):
+    Franchise_request.objects.get(id = pk).delete()
+    messages.error(request,"Request was deleted")
+    return redirect("FrachiserequestAdmin")
 
 # admin dashboard for mlm transactions 
 
@@ -244,6 +263,47 @@ def UserAddByAdmin(request,token):
         "sponsor":sponser
     }
     return render(request,'dashboard/memberregistration.html',context)
+
+
+
+# Franchises....................
+
+def StateFranchise(request):
+    franchise_type = "State Franchise"
+    users = CustomUser.objects.filter(role = "central_franchise")
+    context = {
+        "franchise_type":franchise_type,
+        "users":users
+    }
+    return render(request,"dashboard/Franchises_category.html",context)
+
+def DistrictFranchise(request):
+    franchise_type = "District Franchise"
+    users = CustomUser.objects.filter(role = "district_franchise")
+    context = {
+        "franchise_type":franchise_type,
+        "users":users
+    }
+    return render(request,"dashboard/Franchises_category.html",context)
+
+def ZonelFranchise(request):
+    franchise_type = "Zonel Franchise"
+    users = CustomUser.objects.filter(role = "zonel_franchise")
+    context = {
+        "franchise_type":franchise_type,
+        "users":users
+    }
+    return render(request,"dashboard/Franchises_category.html",context)
+
+
+def MobileFranchise(request):
+    franchise_type = "Mobile Franchise"
+    users = CustomUser.objects.filter(role = "mobile_franchise")
+    context = {
+        "franchise_type":franchise_type,
+        "users":users
+    }
+    return render(request,"dashboard/Franchises_category.html",context)
 
 
 

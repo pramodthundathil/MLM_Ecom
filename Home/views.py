@@ -235,7 +235,7 @@ def SignOut(request):
     return redirect("Index")
 
 def Index(request):
-    product = Product.objects.all()[:9]
+    product = Product.objects.filter(status = True)[:8]
 
 
     context = {

@@ -36,7 +36,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         validators=[RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")],
         verbose_name='phone number'
     )
-    date_of_birth = models.DateField(auto_now_add=False)
+    date_of_birth = models.DateField(auto_now_add=False, null=True, blank=True)
     age = models.BigIntegerField()
     pincode = models.BigIntegerField(default=1)
     village = models.CharField(max_length=20)
@@ -69,7 +69,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ["first_name", "pancard", "ifsc_code", "phone_number"]
+    REQUIRED_FIELDS = ["first_name", "pancard","age","village","district","state", "phone_number"]
 
     bv_active_status = models.BooleanField(default=False)
     designation = models.CharField(

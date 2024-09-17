@@ -189,9 +189,11 @@
                             <span class="text-muted sr-only">Action</span>
                           </button>
                           <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Edit</a>
-                            <a class="dropdown-item" href="#">Remove</a>
-                            <a class="dropdown-item" href="#">Assign</a>
+                            <a class="dropdown-item" href="{%url 'ProductSingleView' item.id%}">Edit</a>
+                            <a class="dropdown-item" href="{%url 'Deleteproduct' item.id %}" onclick="return confirm('Are you sure doyou want to delete ?')">Remove</a>
+                             <!-- Modal -->
+                      
+                            
                           </div>
                         </td>
                       </tr>

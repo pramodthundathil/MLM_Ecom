@@ -125,10 +125,10 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link pl-3" href="./ui-typograpy.html"><span class="ml-1 item-text">Suppliers</span></a>
+                <a class="nav-link pl-3" href="{%url 'Suppliers' %}"><span class="ml-1 item-text">Suppliers</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link pl-3" href="./ui-icons.html"><span class="ml-1 item-text">Inventory</span></a>
+                <a class="nav-link pl-3" href="#"><span class="ml-1 item-text">Inventory</span></a>
               </li>
               
             </ul>
@@ -139,19 +139,42 @@
               <span class="ml-3 item-text">MLM</span>
             </a>
             <ul class="collapse list-unstyled pl-4 w-100" id="forms">
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link pl-3" href="./form_elements.html"><span class="ml-1 item-text">BV
                     withdrawals</span></a>
-              </li>
+              </li> -->
               <li class="nav-item">
-                <a class="nav-link pl-3" href="./form_advanced.html"><span class="ml-1 item-text">Available
-                    Bv</span></a>
+                <!-- <a class="nav-link pl-3" href="./form_advanced.html"><span class="ml-1 item-text">Available Bv</span></a> -->
               </li>
               <li class="nav-item">
                 <a class="nav-link pl-3" href="{%url 'UsersAdminPannel' %}"><span class="ml-1 item-text">Users</span></a>
               </li>
-              <li class="nav-item"></li>
+              <!-- <li class="nav-item"></li>
                 <a class="nav-link pl-3" href="{%url 'FrachiserequestAdmin' %}"><span class="ml-1 item-text">Franchise</span></a>
+              </li> -->
+            </ul>
+          </li>
+          <li class="nav-item dropdown"></li>
+            <a href="#forms1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+              <i class="fe fe-credit-card fe-16"></i>
+              <span class="ml-3 item-text">Franchise</span>
+            </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="forms1">
+             
+              <li class="nav-item"></li>
+                <a class="nav-link pl-3" href="{%url 'FrachiserequestAdmin' %}"><span class="ml-1 item-text">Franchise Requests</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="{%url 'StateFranchise' %}"><span class="ml-1 item-text">State Frachise</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="{%url 'DistrictFranchise' %}"><span class="ml-1 item-text">District Franchise</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link pl-3" href="{%url 'ZonelFranchise' %}"><span class="ml-1 item-text">Zonel Franchise</span></a>
+              </li>
+              <li class="nav-item"></li>
+                <a class="nav-link pl-3" href="{%url 'MobileFranchise' %}"><span class="ml-1 item-text">Mobile Franchise</span></a>
               </li>
             </ul>
           </li>
