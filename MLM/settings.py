@@ -69,7 +69,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'MLM.wsgi.application'
-
+val = 20
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
