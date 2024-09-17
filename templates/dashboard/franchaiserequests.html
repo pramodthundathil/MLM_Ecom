@@ -1,0 +1,114 @@
+{% extends 'dashboard/index.html' %}{% load static %}{% block admin %}
+<link rel="stylesheet" href="{%static 'dashboard/css/dataTables.bootstrap4.css' %}">
+
+<main role="main" class="main-content">
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-12">
+          <h2 class="mb-2 page-title">Frachaises</h2>
+         
+          <!-- <p class="card-text">DataTables is a plug-in for the jQuery Javascript library. It is a highly flexible tool, built upon the foundations of progressive enhancement, that adds all of these advanced features to any HTML table. </p> -->
+          <div class="row my-4">
+                <div class="col-12">
+                  <div class="row align-items-center my-4">
+                    <div class="col">
+                      <!-- <h2 class="h3 mb-0 page-title">Contacts</h2> -->
+                      {% for message in messages %}
+                      <div class="alert {{message.tags}} alert-dismissible fade show" role="alert">
+                        <strong>Alart</strong> {{message}} <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-auto">
+                      
+                      <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#defaultModal"><span class="fe fe-filter fe-12 mr-2"></span>Create New Product</button> -->
+
+                    </div>
+                  </div>
+            <!-- Small table -->
+            <div class="col-md-12">
+              <div class="card shadow">
+                <div class="card-body">
+                  <!-- table -->
+                  <table class="table table-striped datatables" id="dataTable-1">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>User</th>
+                        <th>Frachaise</th>
+                        <th>Date Of request</th>
+                      
+                        <th>Status</th>
+                        <th>Action</th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in franchaise %}
+                      <tr>
+                        
+                        <td>{{forloop.counter}}</td>
+                        <td>{{item.user}}</td>
+                        <td>{{item.frachise_type}}</td>
+                        <td>{{item.date}}</td>
+                       
+                        <td><span class="badge bg-warning">Not approved</span></td>
+                        <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#">Approve</a>
+                            <a class="dropdown-item" href="#">Remove</a>
+                            
+                          </div>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div> <!-- simple table -->
+          </div> <!-- end section -->
+        </div> <!-- .col-12 -->
+      </div> <!-- .row -->
+    </div> <!-- .container-fluid -->
+    
+</main>
+<script src="{%static 'dashboard/js/jquery.min.js' %}"></script>
+<script src="{%static 'dashboard/js/popper.min.js' %}' "></script>
+<script src="{%static 'dashboard/js/moment.min.js' %}"></script>
+<script src="{%static 'dashboard/js/bootstrap.min.js'%}"></script>
+<script src="{%static 'dashboard/js/simplebar.min.js' %}"></script>
+<script src="{%static 'dashboard/js/daterangepicker.js' %}"></script>
+<script src="{%static 'dashboard/js/jquery.stickOnScroll.js' %}"></script>
+<script src="{%static 'dashboard/js/tinycolor-min.js' %}"></script>
+<script src="{%static 'dashboard/js/config.js' %}"></script>
+
+<script src='{%static "dashboard/js/jquery.dataTables.min.js" %}'></script>
+    <script src='{%static "dashboard/js/dataTables.bootstrap4.min.js" %}'></script>
+<script>
+    $('#dataTable-1').DataTable(
+    {
+      autoWidth: true,
+      "lengthMenu": [
+        [16, 32, 64, -1],
+        [16, 32, 64, "All"]
+      ]
+    });
+  </script>
+  
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag()
+    {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'UA-56159088-1');
+  </script>
+
+{% endblock %}

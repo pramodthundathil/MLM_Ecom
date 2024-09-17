@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from Home.models import *
 from .models import *
 from django.contrib import messages
+from django.core.exceptions import ValidationError
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -95,6 +98,152 @@ def delete_franchise_request(request,pk):
     messages.error(request,"Request was deleted")
     return redirect("Franchise_Request")
     
+def FrachiserequestAdmin(request):
+    franchaise = Franchise_request.objects.all()
+    context = {
+        "franchaise":franchaise
+    }
+    return render(request,"dashboard/franchaiserequests.html",context)
+
+
+
+# admin dashboard for mlm transactions 
+
+def UsersAdminPannel(request):
+    users = CustomUser.objects.all()
+    context = {
+        "users":users
+    }
+    return render(request,"dashboard/users.html",context)
+
+
+def UsersingleViewAdmin(request,pk):
+    user = CustomUser.objects.get(id = pk)
+    BV = Business_Volume.objects.get(user = user)
+    bankdetails = AccountDetails.objects.get(user = user)
+    noinee = Nominee.objects.get(user = user)
+    # print(user.first_name,"------------------------------------")
+    context = {
+        "BV":BV,
+        "bankdetails":bankdetails,
+        "noinee":noinee,
+        "member":user
+    }
+    return render(request,"dashboard/adminuserprofile.html",context)
+
+def disableuserAdmin(request,pk):
+    member = CustomUser.objects.get(id = pk)
+    if member.is_active == False:
+        member.is_active = True
+    else:
+        member.is_active = False
+    member.save()
+    messages.info(request,"Member status changed")
+    return redirect("UsersingleViewAdmin", pk = pk)
+
+
+def TokenIdentification(request):
+    if request.method == "POST":
+        token = request.POST.get("name")
+    try:
+        CustomUser.objects.get(id_number = token)
+        return redirect("UserAddByAdmin",token = token)
+    except:
+        messages.info(request,"Sponser id is invalid..")
+        return redirect("UsersAdminPannel")
+
+def generate_unique_id_number():
+    return str(uuid.uuid4().hex[:5]).upper()
+
+def UserAddByAdmin(request,token):
+    sponser = CustomUser.objects.get(id_number = token)
+    
+    if request.method == 'POST':
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        dob = request.POST.get('dob')
+        age = request.POST.get('age')
+        pincode  = request.POST.get('pincode')
+        village = request.POST.get('village')
+        district = request.POST.get('district')
+        state = request.POST.get('state')
+        address = request.POST.get('address')
+        religion = request.POST.get('religion')
+        cast = request.POST.get('cast')
+        pan = request.POST.get('pan')
+        ac_num = request.POST.get('ac_num')
+        branch = request.POST.get('branch')
+        ifsc = request.POST.get('ifsc')
+        nomine = request.POST.get('nomine')
+        id_card = request.FILES.get('id_card')
+        pnum = request.POST.get('pnum')
+        email = request.POST.get('email')
+        pswd = request.POST.get('pswd')
+        cpassword = request.POST.get('cpassword')
+
+        if pswd != cpassword:
+            messages.error(request, "Passwords do not match.")
+            return redirect('register')
+
+        try:
+            if CustomUser.objects.filter(pancard = pan ).exists():
+                messages.info(request,"Pancard Alredy exists...")
+                return redirect("SignUp",token = token)
+            if CustomUser.objects.filter(email = email ).exists():
+                messages.info(request,"Email Id  Already exists...")
+                return redirect("SignUp",token = token)
+            if CustomUser.objects.filter(phone_number=pnum).exists():
+                messages.info(request,"Phonenumber  Already exists...")
+                return redirect("SignUp",token = token)
+                
+            else:
+                user = CustomUser.objects.create(
+                    email=email,
+                    id_number=generate_unique_id_number(),
+                    first_name=fname,
+                    last_name=lname,
+                    date_of_birth=dob,
+                    age=age,
+                    pincode = pincode, 
+                    village=village,
+                    district=district,
+                    state = state,
+                    address=address,
+                    religion=religion,
+                    cast=cast,
+                    pancard=pan,
+                    phone_number=pnum,
+                    role='user',
+                    parent = sponser,
+                    is_active = True
+                )
+                user.set_password(pswd)
+                user.save()
+               
+
+                Business_Volume.objects.create(user=user)
+                AccountDetails.objects.create(
+                    user=user,
+                    ifsc_code=ifsc,
+                    branch_name=branch,
+                    account_number=ac_num
+                )
+                Nominee.objects.create(
+                    user=user,
+                    nominee_name=nomine,
+                    id_proof=id_card
+                )
+                messages.success(request, "User registered successfully.")
+                return redirect("UsersingleViewAdmin", pk = user.id )
+
+        except ValidationError as e:
+            messages.error(request, e.messages)
+            return redirect('register')
+    context = {
+        
+        "sponsor":sponser
+    }
+    return render(request,'dashboard/memberregistration.html',context)
 
 
 

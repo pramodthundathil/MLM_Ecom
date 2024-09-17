@@ -69,6 +69,7 @@ def SignUp(request,token):
         lname = request.POST.get('lname')
         dob = request.POST.get('dob')
         age = request.POST.get('age')
+        pincode  = request.POST.get('pincode')
         village = request.POST.get('village')
         district = request.POST.get('district')
         state = request.POST.get('state')
@@ -97,6 +98,9 @@ def SignUp(request,token):
             if CustomUser.objects.filter(email = email ).exists():
                 messages.info(request,"Email Id  Already exists...")
                 return redirect("SignUp",token = token)
+            if CustomUser.objects.filter(phone_number=pnum).exists():
+                messages.info(request,"Phonenumber  Already exists...")
+                return redirect("SignUp",token = token)
             else:
                 user = CustomUser.objects.create(
                     email=email,
@@ -105,6 +109,7 @@ def SignUp(request,token):
                     last_name=lname,
                     date_of_birth=dob,
                     age=age,
+                    pincode = pincode, 
                     village=village,
                     district=district,
                     state = state,
@@ -281,6 +286,9 @@ def get_child_users(request, user_id):
             })
         
         return JsonResponse(child_data, safe=False)
+    
+
+
     
 def about(request):
     return render(request,'about.html')

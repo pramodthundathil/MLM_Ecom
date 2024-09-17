@@ -38,6 +38,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     )
     date_of_birth = models.DateField(auto_now_add=False)
     age = models.BigIntegerField()
+    pincode = models.BigIntegerField(default=1)
     village = models.CharField(max_length=20)
     district = models.CharField(max_length=20)
     state = models.CharField(max_length=20)
@@ -110,7 +111,7 @@ class Business_Volume(models.Model):
 class AccountDetails(models.Model):
     user  = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     ifsc_code = models.CharField(max_length=20)
-    branch_name = models.CharField(max_length=20)
+    branch_name = models.CharField(max_length=100)
     account_number = models.CharField(max_length=255)
 
 class Nominee(models.Model):

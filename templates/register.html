@@ -1,8 +1,8 @@
 {% extends 'index.html' %}
 {% block content%}
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <!-- Registration Start -->
-<div class="container-xxl py-6 mt-5">
+<div class="container-xxl py-6 mt-5 mb-5">
     <div class="container mt-4"
         style="max-width: 960px;box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;padding: 20px; border-radius: 30px;">
         <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s"
@@ -32,7 +32,7 @@
                 </div>
                 <hr class="text-primary">
 
-                <form method="post">
+                <form method="post" id="registrationForm">
                     {% csrf_token %}
 
                     <h6>Personal details</h6>
@@ -69,24 +69,21 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" required name="village" id="village"
+                                <input type="number" oninput="getPincode(this.value)" class="form-control" required name="pincode" id="pincode"
                                     placeholder="Villege">
-                                <label for="email">Villege</label>
+                                    <small id="pincodestatus" class="">Not verified</small>
+                                <label for="email">Pincode</label>
+                                <input type="hidden" class="form-control" required name="village" id="village"
+                                    placeholder="Villege">
+                                    <input type="hidden" class="form-control" required name="state" id="state"
+                                    placeholder="state">
+                                    <input type="hidden" class="form-control" required name="district" id="district"
+                                    placeholder="District">
+                                    
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" required name="state" id="state"
-                                    placeholder="District">
-                                <label for="email">State</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" required name="district" id="district"
-                                    placeholder="District">
-                                <label for="email">District</label>
-                            </div>
+                            <p id="pincodeval" class="text-primary"></p>
                         </div>
                         <div class="col-md-12">
                             <div class="form-floating">
@@ -97,8 +94,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="hidden" value="nil" class="form-control" required name="religion" id="religion"
-                                    placeholder="Religion">
+                                <input type="hidden" value="nil" class="form-control" required name="religion"
+                                    id="religion" placeholder="Religion">
                                 <!-- <label for="email">Religion</label> -->
                             </div>
                         </div>
@@ -127,19 +124,24 @@
                                 <label for="email">Account Number</label>
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" required name="branch" id="bank_branch"
-                                    placeholder="Bank Branch ">
-                                <label for="email">Bank Branch</label>
+                                <input type="text" class="form-control" oninput="getIFSC(this.value)" required
+                                    name="ifsc" id="ifsc" placeholder="IFSC Code">
+                                <label for="ifsc">IFSC Code</label>
+                                <small id="ifscStatus" class="">Not verified</small>
+                                <!-- <small id="ifscStatus" class="text-muted"><i class="bi bi-patch-check-fill text-primary"></i> Not verified</small> -->
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" required name="ifsc" id="ifsc"
-                                    placeholder="IFSC Code">
-                                <label for="email">IFSC Code</label>
-                            </div>
+                            <!-- <div class="form-floating"> -->
+                            <input type="text" class="form-control" hidden name="branch" id="bank_branch"
+                                placeholder="Bank Branch ">
+                            <label for="email">Bank Branch</label>
+                            <!-- </div> -->
+                            <p id="bankbranch" class="text-primary"></p>
+
                         </div>
                     </div>
                     <h6 class="mt-5">Nominee Details</h6>
@@ -172,13 +174,15 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="email" class="form-control" name="email" required id="email" placeholder="Email Id">
+                                <input type="email" class="form-control" name="email" required id="email"
+                                    placeholder="Email Id">
                                 <label for="email">Email Id</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="password" class="form-control" name="pswd" required id="pswd" placeholder="Password ">
+                                <input type="password" class="form-control" name="pswd" required id="pswd"
+                                    placeholder="Password ">
                                 <label for="email">Password</label>
                             </div>
                         </div>
@@ -192,7 +196,8 @@
 
 
                         <div class="col-12">
-                            <button class="btn btn-primary rounded-pill py-3 px-5" type="submit">SignUp</button>
+                            <button class="btn btn-primary rounded-pill py-3 px-5" type="submit"
+                                id="submitBtn">SignUp</button>
                         </div>
                     </div>
 
@@ -202,5 +207,113 @@
     </div>
 </div>
 <!-- Registration End -->
+<script>
+    let isIFSCValid = false;
+    let isPincode = false  // Track the validity of IFSC
+
+    function getIFSC(ifscCode) {
+        const url = 'https://ifsc.razorpay.com/' + ifscCode;
+
+        // Fetch data from the URL
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Check if BRANCH data is available before updating
+                if (data.BRANCH) {
+                    console.log(data)
+                    document.getElementById("bankbranch").innerHTML = data.BANK+ ", "+data.BRANCH + ", " + data.CENTRE;
+                    document.getElementById("bank_branch").value = data.BANK+ ", "+data.BRANCH + ", " + data.CENTRE;
+                    document.getElementById("ifscStatus").innerHTML ='<i class="bi bi-patch-check-fill text-primary"></i>' + "Verified";
+                    document.getElementById("ifscStatus").style.color = "green";
+                    document.getElementById("ifsc").style.borderColor = ""; // Reset border color if verified
+                    isIFSCValid = true;  // Set IFSC as valid
+                } else {
+                    document.getElementById("bankbranch").innerHTML = "Branch not found";
+                    document.getElementById("ifscStatus").innerHTML = "Not verified";
+                    document.getElementById("ifscStatus").style.color = "red";
+                    document.getElementById("ifsc").style.borderColor = "red"; // Set border color to red
+                    isIFSCValid = false;  // Set IFSC as invalid
+                }
+            })
+            .catch(error => {
+                document.getElementById("bankbranch").innerHTML = "Invalid IFSC Code";
+                document.getElementById("ifscStatus").innerHTML = "Not verified";
+                document.getElementById("ifscStatus").style.color = "red";
+                document.getElementById("ifsc").style.borderColor = "red"; // Set border color to red
+                isIFSCValid = false;  // Set IFSC as invalid
+            });
+    }
+
+    // // Form submission validation
+    // document.getElementById("registrationForm").addEventListener("submit", function (event) {
+    //     if (!isIFSCValid) {
+    //         event.preventDefault();  // Prevent form submission
+    //         alert("Please enter a valid and verified IFSC code.");
+    //         document.getElementById("ifsc").focus();  // Focus on the IFSC input field
+    //         document.getElementById("ifsc").style.borderColor = "red";  // Set border color to red
+    //     }
+    // });
+
+    function getPincode(pincode) {
+    const url = 'https://api.postalpincode.in/pincode/' + pincode;
+
+    // Fetch data from the URL
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();  // Parse the JSON data
+        })
+        .then(data => {
+            if (data[0].Status === "Success") {
+                const postOffice = data[0].PostOffice[0];
+                console.log(postOffice);
+                
+                // Update the hidden fields with village, state, and district
+                document.getElementById("village").value = postOffice.Name;
+                document.getElementById("state").value = postOffice.State;
+                document.getElementById("district").value = postOffice.District;
+
+                // Display the pincode details
+                document.getElementById("pincodeval").innerHTML = postOffice.Name + ", " + postOffice.District + ", " + postOffice.State;
+                document.getElementById("pincodestatus").innerHTML = '<i class="bi bi-patch-check-fill text-primary"></i>' + "Verified";
+                document.getElementById("pincodestatus").style.color = "green";
+                document.getElementById("pincode").style.borderColor = ""; // Reset border color if verified
+                isPincode = true;  // Set pincode as valid
+            } else {
+                document.getElementById("pincodeval").innerHTML = "Pincode not found";
+                document.getElementById("pincodestatus").innerHTML = "Not verified";
+                document.getElementById("pincodestatus").style.color = "red";
+                document.getElementById("pincode").style.borderColor = "red"; // Set border color to red
+                isPincode = false;  // Set pincode as invalid
+            }
+        })
+        .catch(error => {
+            document.getElementById("pincodeval").innerHTML = "Invalid Pincode";
+            document.getElementById("pincodestatus").innerHTML = "Not verified";
+            document.getElementById("pincodestatus").style.color = "red";
+            document.getElementById("pincode").style.borderColor = "red"; // Set border color to red
+            isPincode = false;  // Set pincode as invalid
+        });
+        
+}
+
+    document.getElementById("registrationForm").addEventListener("submit", function (event) {
+        if (!isIFSCValid || !isPincode) {
+            event.preventDefault();  // Prevent form submission
+            alert("Please enter a valid and verified IFSC code. or PINCODE");
+            document.getElementById("ifsc").focus();  // Focus on the IFSC input field
+            document.getElementById("ifsc").style.borderColor = "red";  // Set border color to red
+        }
+    });
+
+
+</script>
 
 {% endblock %}

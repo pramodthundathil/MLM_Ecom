@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link rel="icon" href="{%static 'img/adcos-logo.png' %}">
-  <title>DSES- ADMIN</title>
+  <title>ADCOS- ADMIN</title>
   <!-- Simple bar CSS -->
   <link rel="stylesheet" href="{%static 'dashboard/css/simplebar.css' %}">
   <!-- Fonts CSS -->
@@ -80,8 +80,8 @@
         <!-- nav bar -->
         <div class="w-100 mb-4 d-flex">
           <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="{%url 'AdminDashView' %}">
-            <h1 class="fw-bold text-danger m-0"><img src="{%static 'img/adcos-logo.png' %}" width="60px" alt=""> DS<span
-                class="text-success">E</span>S</h1>
+            <h1 class="fw-bold text-danger m-0"><img src="{%static 'img/adcos-logo.png' %}" width="60px" alt=""> AD<span
+                class="text-success">CO</span>S</h1>
           </a>
         </div>
         <ul class="navbar-nav flex-fill w-100 mb-2">
@@ -98,7 +98,7 @@
                   <a class="nav-link pl-3" href="./dashboard-analytics.html"><span class="ml-1 item-text">Analytics</span></a>
                 </li> -->
               <li class="nav-item">
-                <a class="nav-link pl-3" href="./dashboard-sales.html"><span
+                <a class="nav-link pl-3" href="#"><span
                     class="ml-1 item-text">E-commerce</span></a>
               </li>
               <!-- <li class="nav-item">
@@ -130,9 +130,7 @@
               <li class="nav-item">
                 <a class="nav-link pl-3" href="./ui-icons.html"><span class="ml-1 item-text">Inventory</span></a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link pl-3" href="./ui-buttons.html"><span class="ml-1 item-text">Franchise</span></a>
-              </li>
+              
             </ul>
           </li>
           <li class="nav-item dropdown">
@@ -150,7 +148,10 @@
                     Bv</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link pl-3" href="./form_validation.html"><span class="ml-1 item-text">Users</span></a>
+                <a class="nav-link pl-3" href="{%url 'UsersAdminPannel' %}"><span class="ml-1 item-text">Users</span></a>
+              </li>
+              <li class="nav-item"></li>
+                <a class="nav-link pl-3" href="{%url 'FrachiserequestAdmin' %}"><span class="ml-1 item-text">Franchise</span></a>
               </li>
             </ul>
           </li>
