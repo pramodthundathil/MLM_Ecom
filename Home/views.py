@@ -146,7 +146,7 @@ def SignUp(request,token):
                 )
                 try:
                     message = client.messages.create(
-                                body = f"ADCOS OTP for Your Account Verification is {otp} ",
+                                body = f"ADCOS OTP for Your Account erification is {otp} ",
                                 from_ = '+15109014729',
                                 to=f'+91{user.phone_number}'
                             )
