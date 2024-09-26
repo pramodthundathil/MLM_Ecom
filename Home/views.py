@@ -16,6 +16,12 @@ from django.views.decorators.csrf import csrf_exempt
 from ecom.models import *
 from django.contrib.auth.decorators import login_required
 
+from twilio.rest import Client
+
+account_sid = 'ACe3e95d7a96d576aed42d94489a78e775'
+auth_token = '0d4eeb40c313134a57cbbc2742aaeecd'
+client = Client(account_sid, auth_token)
+
 
 def Landingpage(request):
     return render(request,"landingpage.html")
@@ -138,6 +144,14 @@ def SignUp(request,token):
                     nominee_name=nomine,
                     id_proof=id_card
                 )
+                try:
+                    message = client.messages.create(
+                                body = f"ADCOS OTP for Your Account Verification is {otp} ",
+                                from_ = '+15109014729',
+                                to=f'+91{user.phone_number}'
+                            )
+                except:
+                    print("Failed to sent sms")
                 email = request.POST['email']
                 current_site = get_current_site(request)
                 mail_subject = 'OTP for Account Creation DSES'
