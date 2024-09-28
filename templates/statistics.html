@@ -1,0 +1,114 @@
+{% extends 'index.html' %}{% load static %}{% block content %}
+
+<div class="container mt-5">
+    <h2 class="tect-center">Statistcs</h2>
+    <br>
+    <h4 class="text-primary">First Level Members</h4>
+    <hr>
+    <br>
+    <div class="row flex-wrap">
+        <table class="table table-stripped">
+            <tr>
+                <th>Member Name</th>
+            <th>ADCOS ID</th>
+            <th>Date of join</th>
+            </tr>
+            {% for member in all_levels_members.level_1 %}
+            <tr>
+                <td>{{member.first_name}} {{member.last_name}}</td>
+                <td>{{member.id_number}}</td>
+                <td>{{member.date_joined}}</td>
+            </tr>
+            {% endfor %}
+            
+        </table>
+    </div>
+    <br>
+    <h4 class="text-primary">Second Level Members</h4>
+    <hr>
+    <br>
+    <div class="row flex-wrap">
+        <table class="table table-stripped">
+            <tr>
+                <th>Member Name</th>
+            <th>ADCOS ID</th>
+            <th>Date of join</th>
+            </tr>
+            {% for member in all_levels_members.level_2 %}
+            <tr>
+                <td>{{member.first_name}} {{member.last_name}}</td>
+                <td>{{member.id_number}}</td>
+                <td>{{member.date_joined}}</td>
+            </tr>
+            {% endfor %}
+            
+        </table>
+    </div>
+    <br>
+    <h4 class="text-primary">Third Level Members</h4>
+    <hr>
+    <br>
+    <div class="row flex-wrap">
+        <table class="table table-stripped">
+            <tr>
+                <th>Member Name</th>
+            <th>ADCOS ID</th>
+            <th>Date of join</th>
+            </tr>
+            {% for member in all_levels_members.level_3 %}
+            <tr>
+                <td>{{member.first_name}} {{member.last_name}}</td>
+                <td>{{member.id_number}}</td>
+                <td>{{member.date_joined}}</td>
+            </tr>
+            {% endfor %}
+            
+        </table>
+    </div>
+    <br>
+    <h4 class="text-primary">Fourth Level Members</h4>
+    <hr>
+    <br>
+    <div class="row flex-wrap">
+        <table class="table table-stripped">
+            <tr>
+                <th>Member Name</th>
+            <th>ADCOS ID</th>
+            <th>Date of join</th>
+            </tr>
+            {% for member in all_levels_members.level_4 %}
+            <tr>
+                <td>{{member.first_name}} {{member.last_name}}</td>
+                <td>{{member.id_number}}</td>
+                <td>{{member.date_joined}}</td>
+            </tr>
+            {% endfor %}
+            
+        </table>
+    </div>
+
+    <br>
+    <h4 class="text-primary">Fifth Level Members</h4>
+    <hr>
+    <br>
+    <div class="row flex-wrap">
+        <table class="table table-stripped">
+            <tr>
+                <th>Member Name</th>
+            <th>ADCOS ID</th>
+            <th>Date of join</th>
+            </tr>
+            {% for member in all_levels_members.level_5 %}
+            <tr>
+                <td>{{member.first_name}} {{member.last_name}}</td>
+                <td>{{member.id_number}}</td>
+                <td>{{member.date_joined}}</td>
+            </tr>
+            {% endfor %}
+            
+        </table>
+    </div>
+    
+</div>
+
+{% endblock %}

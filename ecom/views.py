@@ -494,6 +494,63 @@ def Deleteproduct(request,pk):
 def Suppliers(request):
     return render(request,"dashboard/suppliers.html")
 
+
+def FirstAddImageChange(request):
+    banner1 = MainBanner.objects.all()
+    if request.method == "POST":
+        title = request.POST.get('title')
+        sub_title = request.POST.get('sub_name')
+        image = request.FILES.get("image")
+
+        banner = MainBanner(
+            title = title,
+            subtitle = sub_title,
+            image = image
+
+        )
+        banner.save()
+        messages.success(request,"Banner Saved success")
+        return redirect("FirstAddImageChange")
+    context = {
+        "banner":banner1
+    }
+    return render(request,"dashboard/addchange_one.html",context)
+
+def DeleteBanner(request,pk):
+    banner = MainBanner.objects.get(id = pk)
+    banner.image.delete()
+    banner.delete()
+    messages.success(request,"Banner delete success")
+    return redirect("FirstAddImageChange")
+
+
+def FirstAddImageChange_adds(request):
+    banner1 = Adds.objects.all()
+    if request.method == "POST":
+        title = request.POST.get('title')
+        
+        image = request.FILES.get("image")
+
+        banner = Adds(
+            title = title,
+            image = image
+
+        )
+        banner.save()
+        messages.success(request,"Add Saved success")
+        return redirect("FirstAddImageChange_adds")
+    context = {
+        "banner":banner1
+    }
+    return render(request,"dashboard/addchange_two.html",context)
+
+def DeleteAdd(request,pk):
+    banner = Adds.objects.get(id = pk)
+    banner.image.delete()
+    banner.delete()
+    messages.success(request,"Add delete success")
+    return redirect("FirstAddImageChange_adds")
+
     
 
    

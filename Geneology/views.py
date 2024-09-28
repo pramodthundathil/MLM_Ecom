@@ -5,9 +5,10 @@ from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 
-
+@login_required(login_url='SignIn')
 def AdminDashView(request):
     return render(request,"dashboard/index.html")
 
@@ -67,6 +68,7 @@ def calculate_total_bv(user):
     return total_bv
 
 
+@login_required(login_url='SignIn')
 def Franchise_Request(request):
     try:
         frachise_req = Franchise_request.objects.get(user = request.user)
@@ -93,11 +95,13 @@ def Franchise_Request(request):
 
     return render(request,"franchise_request.html",context)
 
+@login_required(login_url='SignIn')
 def delete_franchise_request(request,pk):
     Franchise_request.objects.get(id = pk).delete()
     messages.error(request,"Request was deleted")
     return redirect("Franchise_Request")
     
+@login_required(login_url='SignIn')
 def FrachiserequestAdmin(request):
     franchaise = Franchise_request.objects.all()
     context = {
@@ -105,6 +109,7 @@ def FrachiserequestAdmin(request):
     }
     return render(request,"dashboard/franchaiserequests.html",context)
 
+@login_required(login_url='SignIn')
 def FrachiseRequestSingleview(request,pk):
     req  = Franchise_request.objects.get(id = pk)
     context ={
@@ -112,6 +117,7 @@ def FrachiseRequestSingleview(request,pk):
     }
     return render(request,'dashboard/singlefranchiserequest.html',context)
 
+@login_required(login_url='SignIn')
 def Approve_franchise(request,pk):
     req  = Franchise_request.objects.get(id = pk)
     member = req.user 
@@ -121,6 +127,7 @@ def Approve_franchise(request,pk):
     messages.success(request,"Franchise Request approved")
     return redirect("FrachiserequestAdmin")
 
+@login_required(login_url='SignIn')
 def delete_franchise_request_admin(request,pk):
     Franchise_request.objects.get(id = pk).delete()
     messages.error(request,"Request was deleted")
@@ -128,6 +135,7 @@ def delete_franchise_request_admin(request,pk):
 
 # admin dashboard for mlm transactions 
 
+@login_required(login_url='SignIn')
 def UsersAdminPannel(request):
     users = CustomUser.objects.all()
     context = {
@@ -136,6 +144,7 @@ def UsersAdminPannel(request):
     return render(request,"dashboard/users.html",context)
 
 
+@login_required(login_url='SignIn')
 def UsersingleViewAdmin(request,pk):
     user = CustomUser.objects.get(id = pk)
     BV = Business_Volume.objects.get(user = user)
@@ -150,6 +159,7 @@ def UsersingleViewAdmin(request,pk):
     }
     return render(request,"dashboard/adminuserprofile.html",context)
 
+@login_required(login_url='SignIn')
 def disableuserAdmin(request,pk):
     member = CustomUser.objects.get(id = pk)
     if member.is_active == False:
@@ -161,6 +171,7 @@ def disableuserAdmin(request,pk):
     return redirect("UsersingleViewAdmin", pk = pk)
 
 
+@login_required(login_url='SignIn')
 def TokenIdentification(request):
     if request.method == "POST":
         token = request.POST.get("name")
@@ -171,9 +182,11 @@ def TokenIdentification(request):
         messages.info(request,"Sponser id is invalid..")
         return redirect("UsersAdminPannel")
 
+@login_required(login_url='SignIn')
 def generate_unique_id_number():
     return str(uuid.uuid4().hex[:5]).upper()
 
+@login_required(login_url='SignIn')
 def UserAddByAdmin(request,token):
     sponser = CustomUser.objects.get(id_number = token)
     
@@ -268,6 +281,7 @@ def UserAddByAdmin(request,token):
 
 # Franchises....................
 
+@login_required(login_url='SignIn')
 def StateFranchise(request):
     franchise_type = "State Franchise"
     users = CustomUser.objects.filter(role = "central_franchise")
@@ -277,6 +291,7 @@ def StateFranchise(request):
     }
     return render(request,"dashboard/Franchises_category.html",context)
 
+@login_required(login_url='SignIn')
 def DistrictFranchise(request):
     franchise_type = "District Franchise"
     users = CustomUser.objects.filter(role = "district_franchise")
@@ -286,6 +301,7 @@ def DistrictFranchise(request):
     }
     return render(request,"dashboard/Franchises_category.html",context)
 
+@login_required(login_url='SignIn')
 def ZonelFranchise(request):
     franchise_type = "Zonel Franchise"
     users = CustomUser.objects.filter(role = "zonel_franchise")
@@ -296,6 +312,7 @@ def ZonelFranchise(request):
     return render(request,"dashboard/Franchises_category.html",context)
 
 
+@login_required(login_url='SignIn')
 def MobileFranchise(request):
     franchise_type = "Mobile Franchise"
     users = CustomUser.objects.filter(role = "mobile_franchise")
@@ -304,6 +321,134 @@ def MobileFranchise(request):
         "users":users
     }
     return render(request,"dashboard/Franchises_category.html",context)
+
+
+
+# id card creation 
+
+import qrcode
+from io import BytesIO
+import base64
+from django.shortcuts import render
+from .models import CustomUser
+from django.contrib.sites.shortcuts import get_current_site
+
+@login_required(login_url='SignIn')
+def generate_id_card(request):
+    # Get the user instance
+    user =  request.user
+    
+     # Generate the QR code
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    current_site = get_current_site(request)
+    domain = current_site.domain
+    qr_data = f"{domain}/SignUp/{user.id_number}"
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+
+    # Generate QR code image
+    img = qr.make_image(fill='Green', back_color='white')
+
+    # Save the QR code to a BytesIO object
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    buffer.seek(0)
+
+    # Encode the image to base64
+    qr_code_image = base64.b64encode(buffer.read()).decode('utf-8')
+
+    # Pass the encoded image to the template
+    context = {
+        'user': user,
+        'qr_code_image': qr_code_image
+    }
+
+    return render(request, 'id_card.html', context)
+
+
+
+@login_required(login_url='SignIn')
+def generate_id_card_pdf(request):
+    user =  request.user
+    
+     # Generate the QR code
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    current_site = get_current_site(request)
+    domain = current_site.domain
+    qr_data = f"{domain}/SignUp/{user.id_number}"
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+
+    # Generate QR code image
+    img = qr.make_image(fill='Green', back_color='white')
+
+    # Save the QR code to a BytesIO object
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    buffer.seek(0)
+
+    # Encode the image to base64
+    qr_code_image = base64.b64encode(buffer.read()).decode('utf-8')
+
+    # Pass the encoded image to the template
+    context = {
+        'user': user,
+        'qr_code_image': qr_code_image
+    }
+
+    return render(request, 'id_card_pdf.html', context)
+
+@login_required(login_url='SignIn')
+def GeneologyStatistic(request):
+    # Fetch first-level members directly sponsored by the logged-in user
+    first_level_members = CustomUser.objects.filter(parent=request.user)
+
+    # A dictionary to hold the members for each level
+    all_levels_members = {
+        "level_1": first_level_members,
+        "level_2": [],
+        "level_3": [],
+        "level_4": [],
+        "level_5": []
+    }
+
+    # Recursive function to fetch members for each level
+    def get_downline_members(members, current_level, max_level):
+        if current_level > max_level:
+            return
+
+        # Find members sponsored by the current level members
+        next_level_members = CustomUser.objects.filter(parent__in=members)
+
+        # Store them in the appropriate level
+        all_levels_members[f"level_{current_level}"] = next_level_members
+
+        # Recursive call for the next level
+        get_downline_members(next_level_members, current_level + 1, max_level)
+
+    # Call the recursive function to get up to 5 levels of members
+    get_downline_members(first_level_members, 2, 5)
+
+    print(all_levels_members)
+
+    context = {
+        "first_level_members": first_level_members,
+        "all_levels_members": all_levels_members
+    }
+    return render(request, 'statistics.html', context)
+
+
+
 
 
 

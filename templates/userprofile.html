@@ -317,187 +317,205 @@ right connector from last child*/
 
 
 <!-- <div class="container-fluid py-6 bg-light mt-5"> -->
-    <div class="container py-6 bg-light mb-5">
-        <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s"
-            style="max-width: 500px;">
-            <h1 class="h3 mb-2">My Profile</h1>
-        </div>
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="bg-white text-center h-100 p-4 p-xl-5">
-                    <img class="img-fluid mb-4" src="img/icon-1.png" alt="">
-                    <h5 class="mb-3">Profile Data</h5>
-                    <hr>
-                    <div class="pd-20 card-box height-100-p">
-                        <div class="profile-photo">
-                            <a href="modal" data-toggle="modal" data-target="#modal" class="edit-avatar"><i
-                                    class="fa fa-pencil"></i></a>
-                            <img src="{%static 'vendors/images/photo1.jpg' %}" height="100px" alt=""
-                                class="avatar-photo">
-                        </div>
-                        <h5 class="text-center h5 mb-0">{{request.user.first_name}} {{request.user.last_name}}</h5>
-                        <p class="text-center text-muted font-14">Username: {{request.user}}</p>
-                        <h6>
-                            {% if request.user.bv_active_status == False %}
-                            <img src="{%static 'img/level_1_badge.png' %}" width="50px" alt="">
-                            {% else %}
-                            {% if request.user.designation == "Executive" %}
-                            <img src="{%static 'img/level_2_badge.png' %}" width="50px" alt="">
-                            {% elif request.user.designation == "Cheif Executive" %}
-                            <img src="{%static 'img/level_3_badge.png' %}" width="50px" alt="">
+<div class="container py-6 bg-light mb-5">
+    <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+        <h1 class="h3 mb-2">My Profile</h1>
+    </div>
+    <div class="row g-4">
+        <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="bg-white text-center h-100 p-4 p-xl-5">
+                <img class="img-fluid mb-4" src="img/icon-1.png" alt="">
+                <h5 class="mb-3">Profile Data</h5>
+                <hr>
+                <a href="{%url 'generate_id_card' %}" target="_blank" class="btn btn-info btn-sm text-center">View Id Vard</a>
+                <br>
+                <a href="{%url 'generate_id_card_pdf' %}" class="nav-link" target="_blank">Id card Download</a>
+                <hr>
+                <div class="pd-20 card-box height-100-p">
+                    <div class="profile-photo">
+                        <a href="modal" data-toggle="modal" data-target="#modal" class="edit-avatar"><i
+                                class="fa fa-pencil"></i></a>
+                        <img src="{%static 'vendors/images/photo1.jpg' %}" height="100px" alt="" class="avatar-photo">
+                    </div>
+                    <h5 class="text-center h5 mb-0">{{request.user.first_name}} {{request.user.last_name}}</h5>
+                    <p class="text-center text-muted font-14">Username: {{request.user}}</p>
+                    <h6>
+                        {% if request.user.bv_active_status == False %}
+                        <img src="{%static 'img/level_1_badge.png' %}" width="50px" alt="">
+                        {% else %}
+                        {% if request.user.designation == "Executive" %}
+                        <img src="{%static 'img/level_2_badge.png' %}" width="50px" alt="">
+                        {% elif request.user.designation == "Cheif Executive" %}
+                        <img src="{%static 'img/level_3_badge.png' %}" width="50px" alt="">
 
-                            {% elif request.user.designation == "Manager" %}
-                            <img src="{%static 'img/level_4_badge.png' %}" width="50px" alt="">
-                            {% elif request.user.designation == "General Manager" %}
-                            <img src="{%static 'img/level_5_badge.png' %}" width="50px" alt="">
-                            {% elif request.user.designation == "Director" %}
-                            <img src="{%static 'img/level_6_badge.png' %}" width="50px" alt="">
-                            {% endif %}
-                            {% endif %}
+                        {% elif request.user.designation == "Manager" %}
+                        <img src="{%static 'img/level_4_badge.png' %}" width="50px" alt="">
+                        {% elif request.user.designation == "General Manager" %}
+                        <img src="{%static 'img/level_5_badge.png' %}" width="50px" alt="">
+                        {% elif request.user.designation == "Director" %}
+                        <img src="{%static 'img/level_6_badge.png' %}" width="50px" alt="">
+                        {% endif %}
+                        {% endif %}
 
-                            {{request.user.designation}}
-                            {% if request.user.bv_active_status == False %}
-                            <span class="badge bg-warning">Not Active</span>
-                            {% else %}
-                            <span class="badge bg-primary">Active</span>
-                            {% endif %}
+                        {{request.user.designation}}
+                        {% if request.user.bv_active_status == False %}
+                        <span class="badge bg-warning">Not Active</span>
+                        {% else %}
+                        <span class="badge bg-primary">Active</span>
+                        {% endif %}
 
-                        </h6>
-                        <h6>ID NUMBER: {{request.user.id_number}}</h6>
-                        <div class="bv-details mt-5">
+                    </h6>
+                    <h6>ID NUMBER: {{request.user.id_number}}</h6>
+                    <div class="bv-details mt-5">
 
-                            <h4>Total Purchase BV: <span class="text-primary">{{BV.purchase_bv}}</span></h4>
-                            <div class="row mb-3" style="font-size: x-small;padding: 10px;border: .5px solid gray;">
-                                <div class="col" style="border-right: .5px solid gray;">
-                                    Total Refetel Bv:
-                                    <br>
-                                    <h6 class="text-info">{{BV.bv_amount}}</h6>
-                                </div>
-                                <div class="col" style="border-right: .5px solid gray;">
-                                    Total Withdwen:
-                                    <br>
-                                    <h6 class="text-primary">{{BV.total_bv}}</h6>
-                                </div>
-                                <div class="col">
-                                    Balance BV:
-                                    <br>
-                                    <h6 class="text-warning">{{BV.balance_bv}}</h6>
-                                </div>
+                        <h4>Total Purchase BV: <span class="text-primary">{{BV.purchase_bv}}</span></h4>
+                        <div class="row mb-3" style="font-size: x-small;padding: 10px;border: .5px solid gray;">
+                            <div class="col" style="border-right: .5px solid gray;">
+                                Total RefetelBv:
+                                <br>
+                                <h6 class="text-info">{{BV.bv_amount}}</h6>
+                            </div>
+                            <div class="col" style="border-right: .5px solid gray;">
+                                Total Level Bv:
+                                <br>
+                                <h6 class="text-info">{{BV.bv_amount}}</h6>
+                            </div>
+                            <div class="col" style="border-right: .5px solid gray;">
+                                Total Withdwen:
+                                <br>
+                                <h6 class="text-primary">{{BV.total_bv}}</h6>
+                            </div>
+                            <div class="col">
+                                Balance BV:
+                                <br>
+                                <h6 class="text-warning">{{BV.balance_bv}}</h6>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="profile-info mt-2">
-                            <h5 class="mb-20 h5 text-blue">Personal Information</h5>
-                            <hr>
-                            <table class="table table-stripped text-left" style="font-size:small;">
-                                <tr>
-                                    <td>Date of Birth</td>
-                                    <th>{{request.user.date_of_birth}}</th>
-                                </tr>
-                                <tr>
-                                    <td>Age</td>
-                                    <th>{{request.user.age}}</th>
-                                </tr>
-                                <tr>
-                                    <td>Email:</td>
-                                    <th>{{request.user}}</th>
-                                </tr>
-                                <tr>
-                                    <td>Phone Number:</td>
-                                    <th>{{request.user.phone_number}}</th>
-                                </tr>
-                                <tr>
-                                    <td>District:</td>
-                                    <th>{{request.user.district}}</th>
-                                </tr>
-                                <tr>
-                                    <td>Villege</td>
-                                    <th>{{request.user.address}}</th>
-                                </tr>
+                    <div class="profile-info mt-2">
+                        <h5 class="mb-20 h5 text-blue">Personal Information</h5>
+                        <hr>
+                        <table class="table table-stripped text-left" style="font-size:small;">
+                            <tr>
+                                <td>Date of Birth</td>
+                                <th>{{request.user.date_of_birth}}</th>
+                            </tr>
+                            <tr>
+                                <td>Age</td>
+                                <th>{{request.user.age}}</th>
+                            </tr>
+                            <tr>
+                                <td>Email:</td>
+                                <th>{{request.user}}</th>
+                            </tr>
+                            <tr>
+                                <td>Phone Number:</td>
+                                <th>{{request.user.phone_number}}</th>
+                            </tr>
+                            <tr>
+                                <td>District:</td>
+                                <th>{{request.user.district}}</th>
+                            </tr>
+                            <tr>
+                                <td>Villege</td>
+                                <th>{{request.user.address}}</th>
+                            </tr>
 
-                            </table>
+                        </table>
 
-                        </div>
-                        <div class="profile-social">
-                            <h5 class="mb-20 h5 text-blue">Bank Details</h5>
-                            <hr>
-                            <table class="table table-stripped" style="font-size:small;">
-                                <tr>
-                                    <td>Account Number</td>
-                                    <th>
-                                        {{bankdetails.account_number}}
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        IFSC Code
-                                    </td>
-                                    <th>
-                                        {{bankdetails.ifsc_code}}
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td>PANCARD Number</td>
-                                    <th>
-                                        {{request.user.pancard}}
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td>Branch</td>
-                                    <th>
-                                        {{bankdetails.branch_name}}
-                                    </th>
-                                </tr>
+                    </div>
+                    <div class="profile-social">
+                        <h5 class="mb-20 h5 text-blue">Bank Details</h5>
+                        <hr>
+                        <table class="table table-stripped" style="font-size:small;">
+                            <tr>
+                                <td>Account Number</td>
+                                <th>
+                                    {{bankdetails.account_number}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    IFSC Code
+                                </td>
+                                <th>
+                                    {{bankdetails.ifsc_code}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>PANCARD Number</td>
+                                <th>
+                                    {{request.user.pancard}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>Branch</td>
+                                <th>
+                                    {{bankdetails.branch_name}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Change password</th>
+                                <td><a class="nav-link" href="{%url 'change_password' %}">Change password</a></td>
+                            </tr>
 
-                            </table>
+                        </table>
 
-                        </div>
-                        <div class="reflink">
-                            <h5 class="mb-20 h5 text-blue">Reference Link</h5>
-                            <hr>
-                            <form method="post" action="{%url 'SentRefrelLink' %}">
-                                {% csrf_token %}
-                                <label for="">Send Reference link Via Email</label>
-                                <input type="email" name="email" placeholder="Enter Email Id For Invitation"
-                                    class="form-control"><br>
-                                <button class="btn btn-primary">Send Reference Link</button>
-                            </form>
-                        </div>
-                        <div class="franchise_area mt-3">
-                            <a href="{%url 'Franchise_Request' %}" class="text-decoration"
-                                style="text-decoration: underline;">Request Franchise</a>
-                        </div>
+                    </div>
+                    <div class="reflink">
+                        <h5 class="mb-20 h5 text-blue">Reference Link</h5>
+                        <hr>
+                        <!-- <form method="post" action="{%url 'SentRefrelLink' %}">
+                            {% csrf_token %}
+                            <label for="">Send Reference link Via Email</label>
+                            <input type="email" name="email" placeholder="Enter Email Id For Invitation"
+                                class="form-control"><br>
+                            <button class="btn btn-primary">Send Reference Link</button>
+                        </form> -->
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control border-0" disabled value="{{reflink}}"  aria-label="Example text with button addon" id="inputField" aria-describedby="button-addon1">
+                            <button class="btn btn-outline-primary" type="button" id="button-addon1" onclick="copyInputValue()">Copy</button>
+
+                          </div>
+                    </div>
+                    <div class="franchise_area mt-3">
+                        <a href="{%url 'Franchise_Request' %}" class=" nav-link"
+                            style="text-decoration: underline;">Request Franchise</a>
                     </div>
                 </div>
             </div>
+        </div>
 
 
 
-            <div class="col-lg-8 col-md-12 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="bg-white text-center h-100 p-4 p-xl-5">
-                    <img class="img-fluid mb-4" src="img/icon-2.png" alt="">
-                    <h4 class="mb-3">Genealogy</h4>
-                    <a href="{%url 'SignUp' request.user.id_number %}" class="btn btn-primary">Add Direct Member</a>
-                    <br>
-                    <p class="mb-4">Your Genealogy will Display Here</p>
-                    <button id="zoom-in" class="btn btn-sm btn-outline-dark">Zoom In +</button>
-                    <button id="zoom-out" class="btn btn-sm btn-outline-dark">Zoom Out -</button>
+        <div class="col-lg-8 col-md-12 wow fadeInUp" data-wow-delay="0.3s">
+            <div class="bg-white text-center h-100 p-4 p-xl-5">
+                <img class="img-fluid mb-4" src="img/icon-2.png" alt="">
+                <h4 class="mb-3">Genealogy</h4>
+                <a href="{%url 'SignUp' request.user.id_number %}" class="btn btn-primary">Add Direct Member</a>
+                <br>
+                <a href="{%url 'GeneologyStatistic' %}" class="nav-link">Members Work Flow</a>
+                <br>
+                <p class="mb-4">Your Genealogy will Display Here</p>
+                <button id="zoom-in" class="btn btn-sm btn-outline-dark">Zoom In +</button>
+                <button id="zoom-out" class="btn btn-sm btn-outline-dark">Zoom Out -</button>
 
-                    <div class="genealogy">
-                        <div class="zoom-container" id="zoomable">
+                <div class="genealogy">
+                    <div class="zoom-container" id="zoomable">
 
-                            <main class="main-content1" style="margin: auto;">
-                                <div class="tree mt-5 text-center">
-                                    <ul>
-                                        <li>
-                                            <a class="user text-primary" id="user-{{ request.user.id }}"
-                                                data-user-id="{{ request.user.id }}" style="font-weight: 700;">
-                                                <img src="{% static 'img/avathar.png' %}" alt="" width="30px"> <br>
-                                                {{request.user.first_name }} <br>
-                                                <span class="badge bg-warning text-light ms-1"
-                                                    style="background: #6b1010 !important;">view</span>
-                                            </a>
-                                            <!-- <ul>
+                        <main class="main-content1" style="margin: auto;">
+                            <div class="tree mt-5 text-center">
+                                <ul>
+                                    <li>
+                                        <a class="user text-primary" id="user-{{ request.user.id }}"
+                                            data-user-id="{{ request.user.id }}" style="font-weight: 700;">
+                                            <img src="{% static 'img/avathar.png' %}" alt="" width="30px"> <br>
+                                            {{request.user.first_name }} <br>
+                                            <span class="badge bg-warning text-light ms-1"
+                                                style="background: #6b1010 !important;">view</span>
+                                        </a>
+                                        <!-- <ul>
                                         Sub-tree structure will be dynamically generated here
                                         <li>
                                             <a href="#" class="left-user">
@@ -506,16 +524,16 @@ right connector from last child*/
                                             </a>
                                         </li>
                                     </ul> -->
-                                        </li>
-                                    </ul>
-                                </div>
-                            </main>
-                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </main>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 <!-- </div> -->
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -646,5 +664,22 @@ right connector from last child*/
     });
 
 </script>
+<script>
+    function copyInputValue() {
+      // Get the input field
+      var input = document.getElementById("inputField");
+    
+      // Copy the input value to the clipboard using the Clipboard API
+      navigator.clipboard.writeText(input.value)
+        .then(() => {
+          // Optional: Display a message or visual confirmation
+          alert("Copied: " + input.value);
+        })
+        .catch(err => {
+          console.error('Failed to copy: ', err);
+          alert('Failed to copy text.');
+        });
+    }
+    </script>
 
 {% endblock %}

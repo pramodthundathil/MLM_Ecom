@@ -15,12 +15,11 @@ from django.views.decorators.csrf import csrf_exempt
 
 from ecom.models import *
 from django.contrib.auth.decorators import login_required
-
+from django.utils.crypto import get_random_string
 from twilio.rest import Client
 
-account_sid = 'ACe3e95d7a96d576aed42d94489a78e775'
-auth_token = '0d4eeb40c313134a57cbbc2742aaeecd'
-client = Client(account_sid, auth_token)
+
+client = Client("test", "test")
 
 
 def Landingpage(request):
@@ -64,7 +63,10 @@ def generate_otp(user):
     return otp
 
 def generate_unique_id_number():
-    return str(uuid.uuid4().hex[:5]).upper()
+    while True:
+        id_num = 'ADCOS' + get_random_string(length=5, allowed_chars='0123456789')
+        if not CustomUser.objects.filter(id_number=id_num).exists():
+            return id_num  # Break the loop and return the unique ID number
 
 def SignUp(request,token):
     form = CustomUserCreationForm()
@@ -146,7 +148,7 @@ def SignUp(request,token):
                 )
                 try:
                     message = client.messages.create(
-                                body = f"ADCOS OTP for Your Account erification is {otp} ",
+                                body = f"ADCOS E-COMMERCE COMPANY OTP for Your Account Verification is {otp} ",
                                 from_ = '+15109014729',
                                 to=f'+91{user.phone_number}'
                             )
@@ -154,7 +156,7 @@ def SignUp(request,token):
                     print("Failed to sent sms")
                 email = request.POST['email']
                 current_site = get_current_site(request)
-                mail_subject = 'OTP for Account Creation DSES'
+                mail_subject = 'OTP for Account Creation ADCOS E-COMMERCE COMPANY'
                 path = "SignUp"
                 message = render_to_string('emailbody_otp.html', {'user': user,
                                                                     'domain': current_site.domain,
@@ -198,11 +200,34 @@ def verify_otp(request, pk):
                 user.is_active = True
                 user.save()
                 user_otp.delete()
+                try:
+                    message = client.messages.create(
+                                body = f"Your ADCOS E-COMMERCE COMPANY Account Is Activated on id {user.id_number} ",
+                                from_ = '+15109014729',
+                                to=f'+91{user.phone_number}'
+                            )
+                except:
+                    print("Failed to sent sms")
+                email = request.POST['email']
+                current_site = get_current_site(request)
+                mail_subject = 'Accout Activated - ADCOS E-COMMERCE COMPANY'
+                path = "SignUp"
+                message = render_to_string('emailbody_otp.html', {'user': user,
+                                                                    'domain': current_site.domain,
+                                                                    'path':path,
+                                                                    'user_id':user.id_number,})
+
+                email = EmailMessage(mail_subject, message, to=[email])
+                email.send(fail_silently=True)
+
                 return redirect('VeryfiedOTP')
         except UserOTP.DoesNotExist:
             # OTP is incorrect
-            return render(request, 'verify_otp.html', {'error': 'Invalid OTP'})
-    return render(request, 'verified_otp.html')
+            messages.info(request,"Invalid OTP")
+            return redirect("OTPverification")
+    
+    return redirect("OTPverification")
+
 def VeryfiedOTP(request):
     return render(request, 'verified_otp.html')
 
@@ -211,7 +236,7 @@ def SignIn(request):
         uname = request.POST['uname']
         pswd = request.POST['pswd']
         try:
-            user1 = CustomUser.objects.get(email = uname)
+            user1 = CustomUser.objects.get(id_number = uname)
             if not user1.is_active:
             
                 otp = generate_otp(user1)
@@ -231,7 +256,7 @@ def SignIn(request):
                 return redirect('OTPverification', pk = user1.id)
         
 
-            user = authenticate(request,email = uname, password = pswd)
+            user = authenticate(request,id_number = uname, password = pswd)
             if user is not None:
                 user = login(request,user)
                 return redirect('Index')
@@ -250,10 +275,14 @@ def SignOut(request):
 
 def Index(request):
     product = Product.objects.filter(status = True)[:8]
+    mainbanner = MainBanner.objects.all().last()
+    adds = Adds.objects.all()
 
 
     context = {
-        "products":product
+        "products":product,
+        "mainbanner":mainbanner,
+        "adds":adds
     }
 
     return render(request,"index.html",context)
@@ -268,11 +297,14 @@ def ProfileScreen(request):
     BV = Business_Volume.objects.get(user = user)
     bankdetails = AccountDetails.objects.get(user = user)
     noinee = Nominee.objects.get(user = user)
+    site = get_current_site(request)
+    reflink = f"{site.domain}/SignUp/{request.user.id_number}"
     # print(user.first_name,"------------------------------------")
     context = {
         "BV":BV,
         "bankdetails":bankdetails,
-        "noinee":noinee
+        "noinee":noinee,
+        "reflink":reflink
     }
     return render(request,"userprofile.html",context)
 
@@ -309,6 +341,35 @@ def about(request):
 
 def Contact(request):
     return render(request,'contact.html')
+
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        new_password = request.POST.get("uname")
+        new_password_C = request.POST.get("pswd")
+        if new_password == new_password_C:
+            user = request.user
+            user.set_password(new_password)
+            user.save()
+            
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('password_change_done')
+        else:
+            messages.error(request, 'Please correct the error below.')
+            return redirect("change_password")
+    
+    return render(request, 'change_password.html')
+
+def password_change_done(request):
+    return render(request,"passwordchanged.html")
+
 
 
 

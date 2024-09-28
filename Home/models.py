@@ -68,7 +68,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'id_number'
     REQUIRED_FIELDS = ["first_name", "pancard","age","village","district","state", "phone_number"]
 
     bv_active_status = models.BooleanField(default=False)

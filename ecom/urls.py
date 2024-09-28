@@ -21,4 +21,8 @@ urlpatterns = [
     path("ProductSingleView/<int:pk>",views.ProductSingleView,name="ProductSingleView"),
     path("Deleteproduct/<int:pk>",views.Deleteproduct, name="Deleteproduct"),
     path("Suppliers",views.Suppliers, name="Suppliers"),
+    path("FirstAddImageChange",views.FirstAddImageChange, name="FirstAddImageChange"),
+    path("FirstAddImageChange_adds",views.FirstAddImageChange_adds, name="FirstAddImageChange_adds"),
+    path("DeleteBanner/<int:pk>",views.DeleteBanner,name="DeleteBanner"),
+    path("DeleteAdd/<int:pk>",views.DeleteAdd,name="DeleteAdd"),
 ]

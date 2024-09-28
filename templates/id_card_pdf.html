@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID Card</title>
+    <style>
+        .id-card {
+            width: 300px;
+            height: 440px;
+            border: 2px solid #000;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: auto;
+        }
+        .qr-code {
+            width:60%;
+            margin: auto;
+            margin-top: 20px;
+
+        }
+        .qr-code img{
+            width: 100%;
+        }
+        .header{
+            display: block;
+            margin: auto;
+        }
+        .address p {
+            line-height: 4px;
+            font-size: x-small;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="id-card" id="contentToDownload">
+        <div class="header">
+            <img src="{%static 'img\adcos_in.png' %}" width="100px" alt="">
+            <hr>
+        </div>
+        <h2>Name: {{ user.first_name }} {{ user.last_name }}</h2>
+        <p><strong>ID Number:</strong> {{ user.id_number }}</p>
+        <p><strong>Sponsor:</strong> {{ user.parent.first_name }}</p>
+        
+        <!-- Display QR Code -->
+        <div class="qr-code" >
+            <img src="data:image/png;base64,{{ qr_code_image }}" alt="QR Code" />
+        </div>
+        <hr>
+        <div class="address text-center" >
+            <img src="{%static 'img\adcos_venture.png' %}" width="100px" alt="">
+            <p>First Floor Alexander Building</p>
+            <p>Pathanapuram, Kollam-689695</p>
+            <p>Kerala, South India</p>
+
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        async function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+
+            const contentElement = document.getElementById('contentToDownload');
+            const canvas = await html2canvas(contentElement);
+            const imgData = canvas.toDataURL('image/png');
+
+            const pdf = new jsPDF();
+            const imgWidth = 210;
+            const pageHeight = 295;
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+            let heightLeft = imgHeight;
+
+            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+            heightLeft -= pageHeight;
+            while (heightLeft >= 0) {
+                pdf.addPage();
+                pdf.addImage(imgData, 'PNG', 0, heightLeft - imgHeight, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+            }
+
+            pdf.save('ADCOS_IDcard_{{user.first_name}}.pdf');
+            window.close()
+        }
+        window.onload = function () {
+
+            downloadPDF();
+
+        };
+    </script>
+</body>
+</html>

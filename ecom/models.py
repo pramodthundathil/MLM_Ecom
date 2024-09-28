@@ -159,6 +159,17 @@ class OrderItems(models.Model):
     
 
 
-    
+class MainBanner(models.Model):
+    title = models.CharField(max_length=50)
+    subtitle = models.CharField(max_length=50)
+    image = models.FileField(upload_to='main_banner')
+    date = models.DateField(auto_now_add=True)
+
+class Adds(models.Model):
+    title = models.CharField(max_length=50)
+    image = models.FileField(upload_to="adds")
+    date = models.DateField(auto_now_add=True)
+
+
 
 

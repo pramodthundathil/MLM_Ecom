@@ -20,6 +20,9 @@ urlpatterns = [
         path("FrachiseRequestSingleview/<int:pk>",views.FrachiseRequestSingleview,name="FrachiseRequestSingleview"),
         path("Approve_franchise/<int:pk>",views.Approve_franchise,name="Approve_franchise"),
         path("delete_franchise_request_admin/<int:pk>",views.delete_franchise_request_admin,name="delete_franchise_request_admin"),
+        path("generate_id_card",views.generate_id_card,name="generate_id_card"),
+        path("generate_id_card_pdf",views.generate_id_card_pdf,name="generate_id_card_pdf"),
+        path("GeneologyStatistic",views.GeneologyStatistic,name="GeneologyStatistic"),
 
 
         

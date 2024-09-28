@@ -35,7 +35,7 @@
 </head>
 
 <body>
-    <!-- Page Preloder -->
+    <!-- Page Preloder --> 
     <div id="preloder">
         <div class="loader"></div>
     </div>
@@ -51,7 +51,7 @@
                 <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
                 <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
             </ul>
-            <div class="header__cart__price">item: <span>$150.00</span></div>
+            <div class="header__cart__price">item: <span></span></div>
         </div>
         <div class="humberger__menu__widget">
             <div class="header__top__right__language">
@@ -112,7 +112,7 @@
         </div>
         <div class="humberger__menu__contact">
             <ul>
-                <li><i class="fa fa-envelope"></i> DSES2025@GMAIL.COM</li>
+                <li><i class="fa fa-envelope"></i>  adcos2024customercare@gmail.com</li>
                 <li></li>
             </ul>
         </div>
@@ -127,7 +127,7 @@
                     <div class="col-lg-6 col-md-6">
                         <div class="header__top__left">
                             <ul>
-                                <li><i class="fa fa-envelope"></i> DSES2025@GMAIL.COM</li>
+                                <li><i class="fa fa-envelope"></i>  adcos2024customercare@gmail.com</li>
                                 <li></li>
                             </ul>
                         </div>
@@ -180,10 +180,10 @@
             </div>
         </div>
         <div class="container">
-            <div class="row">
+            <div class="row" style="align-items: baseline;">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="{%url 'Index' %}"><img src="{%static 'img/logo.png' %}" width="150px" alt=""></a>
+                        <a href="{%url 'Index' %}"><img src="{%static 'img\adcos_in.png' %}" width="150px" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -233,7 +233,7 @@
                     <a class="nav-link second-nav-item text-white" href="{% url 'Landingpage' %}">Gift Vouchers/ Coupons</a>
                     <a class="nav-link second-nav-item text-white" href="{% url 'Landingpage' %}">New Arrivals</a>
                     <a class="nav-link second-nav-item text-white" href="{% url 'Landingpage' %}">Todays Market</a>
-                    <a class="nav-link second-nav-item text-white" href="{% url 'Landingpage' %}">Electronic Vehicles</a>
+                    <a class="nav-link second-nav-item text-white" href="{% url 'Landingpage' %}">Electric Vehicles</a>
                     <a class="nav-link second-nav-item text-white" href="{% url 'Landingpage' %}">Mobile and Computers</a>
                     <a class="nav-link second-nav-item text-white" href="{% url 'Landingpage' %}">International Brands</a>
                 </div>
@@ -263,10 +263,11 @@
 
                             <li><a href="#">Adcos Essential</a></li>
                             <li><a href="#">Electricals and Electronics</a></li>
-                            <li><a href="#">Fresh Onion</a></li>
-                            <li><a href="#">Papayaya & Crisps</a></li>
-                            <li><a href="#">Oatmeal</a></li>
-                            <li><a href="#">Fresh Bananas</a></li>
+                            <li><a href="#">Book & Stationeries</a></li>
+                            <li><a href="#">Travel</a></li>
+                            <li><a href="#">Air Tikets</a></li>
+                            <li><a href="#">Bus Tikets</a></li>
+                            <li><a href="#">Cab Booking</a></li>
                         </ul>
                     </div>
                 </div>
@@ -283,19 +284,19 @@
                             </form>
                         </div>
                         <div class="hero__search__phone">
-                            <div class="hero__search__phone__icon">
+                            <!-- <div class="hero__search__phone__icon">
                                 <i class="fa fa-phone"></i>
                             </div>
                             <div class="hero__search__phone__text">
-                                <h5>+65 11.188.888</h5>
+                                <h5>+91 8078391109</h5>
                                 <span>support 24/7 time</span>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
-                    <div class="hero__item set-bg" data-setbg="{%static 'img/hero/banner.jpg' %}">
+                    <div class="hero__item set-bg" data-setbg="{{mainbanner.image.url}}" >
                         <div class="hero__text">
-                            <span class="text-white">MAKE YOUR PURCHASE TODAY</span>
-                            <h2 class="text-primary">EARN  <br />HIGHER BV</h2>
+                            <span class="text-white">{{mainbanner.subtitle}}</span>
+                            <h2 class="text-primary">{{mainbanner.title}}  <br /></h2>
                             <p class="text-light">Free Delivery Available</p>
                             <a href="#" class="primary-btn">SHOP NOW</a>
                         </div>
@@ -366,16 +367,13 @@
     <div class="banner">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
+                {% for item in adds %}
+                <div class="col-lg-6 col-md-6 col-sm-6 mt-2">
                     <div class="banner__pic">
-                        <img src="{%static 'img/banner/banner-1.jpg' %}" alt="">
+                        <img src="{{item.image.url}}" width="100%" alt="">
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="banner__pic">
-                        <img src="{%static 'img/banner/banner-2.jpg' %}" alt="">
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -390,62 +388,32 @@
                         <h4>Latest Products</h4>
                         <div class="latest-product__slider owl-carousel">
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
+                                {% for item in products%}
+                                <a href="{%url 'ProductSingle' item.id %}" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-1.jpg' %}" alt="">
+                                        <img src="{{item.image_primary.url}}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
+                                        <h6>{{item.product_name}}</h6>
+                                        <span>₹ {{item.price}}</span>
                                     </div>
                                 </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-2.jpg' %}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-3.jpg' %}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
+                                {% endfor %}
+                               
                             </div>
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
+                                {% for item in products%}
+                                <a href="{%url 'ProductSingle' item.id %}" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-1.jpg' %}" alt="">
+                                        <img src="{{item.image_primary.url}}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
+                                        <h6>{{item.product_name}}</h6>
+                                        <span>₹ {{item.price}}</span>
                                     </div>
                                 </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-2.jpg' %}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-3.jpg' %}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
+                                {% endfor %}
+                                
                             </div>
                         </div>
                     </div>
@@ -455,62 +423,30 @@
                         <h4>Top Rated Products</h4>
                         <div class="latest-product__slider owl-carousel">
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
+                                {% for item in products%}
+                                <a href="{%url 'ProductSingle' item.id %}" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-1.jpg' %}" alt="">
+                                        <img src="{{item.image_primary.url}}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
+                                        <h6>{{item.product_name}}</h6>
+                                        <span>₹ {{item.price}}</span>
                                     </div>
                                 </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-2.jpg' %}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-3.jpg' %}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
+                                {% endfor %}
                             </div>
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
+                                {% for item in products%}
+                                <a href="{%url 'ProductSingle' item.id %}" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-1.jpg' %}" alt="">
+                                        <img src="{{item.image_primary.url}}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
+                                        <h6>{{item.product_name}}</h6>
+                                        <span>₹ {{item.price}}</span>
                                     </div>
                                 </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-2.jpg' %}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-3.jpg' %}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -520,62 +456,31 @@
                         <h4>Review Products</h4>
                         <div class="latest-product__slider owl-carousel">
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
+                                {% for item in products%}
+                                <a href="{%url 'ProductSingle' item.id %}" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-1.jpg' %}" alt="">
+                                        <img src="{{item.image_primary.url}}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
+                                        <h6>{{item.product_name}}</h6>
+                                        <span>₹ {{item.price}}</span>
                                     </div>
                                 </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-2.jpg' %}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-3.jpg' %}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
+                                {% endfor %}
                             </div>
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-1.jpg' %}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-2.jpg' %}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{%static 'img/latest-product/lp-3.jpg' %}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
+                               
+                                    {% for item in products%}
+                                    <a href="{%url 'ProductSingle' item.id %}" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="{{item.image_primary.url}}" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>{{item.product_name}}</h6>
+                                            <span>₹ {{item.price}}</span>
+                                        </div>
+                                    </a>
+                                    {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -586,7 +491,7 @@
     <!-- Latest Product Section End -->
 
     <!-- Blog Section Begin -->
-    <section class="from-blog spad">
+    <!-- <section class="from-blog spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -608,7 +513,7 @@
                         </div>
                         <ul>
                             <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
-                            <!-- <li><i class="fa fa-comment-o"></i> 5</li> -->
+                            <li><i class="fa fa-comment-o"></i> 5</li>
                         </ul>
                     </div>
                 </div>
@@ -644,7 +549,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
     <!-- Blog Section End -->
 
     {% endblock %}
@@ -656,12 +561,15 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__about__logo">
-                            <a href="./index.html"><img src="{%static 'img/logo.png' %}" width="100px" alt=""></a>
+                            <a href="{%url 'Index' %}"><img src="{%static 'img/adcos_venture.png' %}" width="100px" alt=""></a>
                         </div>
                         <ul>
-                            <li>Address: 60-49 Road 11378 New York</li>
-                            <li>Phone: +65 11.188.888</li>
-                            <li>Email: hello@colorlib.com</li>
+                            <li>Address: First Floor Alexander Building
+                                            Pathanapuram, Kollam-689695
+                                            Kerala, South India
+                                </li>
+                            <li>Phone: +91 8078381109</li>
+                            <li>Email: adcos2024customercare@gmail.com</li>
                         </ul>
                     </div>
                 </div>
