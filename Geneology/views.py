@@ -182,9 +182,14 @@ def TokenIdentification(request):
         messages.info(request,"Sponser id is invalid..")
         return redirect("UsersAdminPannel")
 
-@login_required(login_url='SignIn')
+
+from django.utils.crypto import get_random_string
+
 def generate_unique_id_number():
-    return str(uuid.uuid4().hex[:5]).upper()
+    while True:
+        id_num = 'ADCOS' + get_random_string(length=5, allowed_chars='0123456789')
+        if not CustomUser.objects.filter(id_number=id_num).exists():
+            return id_num  # Break the loop and return the unique ID number
 
 @login_required(login_url='SignIn')
 def UserAddByAdmin(request,token):
@@ -220,14 +225,13 @@ def UserAddByAdmin(request,token):
         try:
             if CustomUser.objects.filter(pancard = pan ).exists():
                 messages.info(request,"Pancard Alredy exists...")
-                return redirect("SignUp",token = token)
+                return redirect("UsersingleViewAdmin",token = token)
             if CustomUser.objects.filter(email = email ).exists():
                 messages.info(request,"Email Id  Already exists...")
-                return redirect("SignUp",token = token)
+                return redirect("UsersingleViewAdmin",token = token)
             if CustomUser.objects.filter(phone_number=pnum).exists():
                 messages.info(request,"Phonenumber  Already exists...")
-                return redirect("SignUp",token = token)
-                
+                return redirect("UsersingleViewAdmin",token = token)
             else:
                 user = CustomUser.objects.create(
                     email=email,
@@ -270,7 +274,7 @@ def UserAddByAdmin(request,token):
 
         except ValidationError as e:
             messages.error(request, e.messages)
-            return redirect('register')
+            return redirect('UserAddByAdmin',token = token)
     context = {
         
         "sponsor":sponser

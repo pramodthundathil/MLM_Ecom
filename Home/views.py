@@ -19,7 +19,7 @@ from django.utils.crypto import get_random_string
 from twilio.rest import Client
 
 
-client = Client("test", "test")
+client = Client("account_sid", "auth_token")
 
 
 def Landingpage(request):

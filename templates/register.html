@@ -55,14 +55,14 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="date" class="form-control" name="dob" required id="lname"
+                                <input type="date" class="form-control" name="dob" required id="dob"
                                     placeholder="Last name">
                                 <label for="email">Date of Birth</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="number" class="form-control" required name="age" id="age"
+                                <input type="number" class="form-control" readonly required name="age" id="age"
                                     placeholder="Age">
                                 <label for="email">Age</label>
                             </div>
@@ -181,10 +181,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="password" class="form-control" name="pswd" required id="pswd"
-                                    placeholder="Password ">
-                                <label for="email">Password</label>
+                                <input type="password" minlength="6" class="form-control" name="pswd" required id="pswd" placeholder="Password">
+                                <label for="pswd">Password</label>
                             </div>
+                            
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
@@ -312,7 +312,45 @@
             document.getElementById("ifsc").style.borderColor = "red";  // Set border color to red
         }
     });
+      // Set minimum date for date of birth input (20 years from now)
+      const dobInput = document.getElementById('dob');
+    const ageInput = document.getElementById('age');
+    
+    const today = new Date();
+    const twentyYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
 
+    // Format the date to yyyy-mm-dd for the input
+    dobInput.max = twentyYearsAgo.toISOString().split('T')[0];
+
+    // Function to calculate age
+    dobInput.addEventListener('change', function() {
+        const dobValue = new Date(this.value);
+        const today = new Date();
+        let age = today.getFullYear() - dobValue.getFullYear();
+        const monthDifference = today.getMonth() - dobValue.getMonth();
+
+        // Adjust age if the current month is before the birthday month or if it's the same month but a later day
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dobValue.getDate())) {
+            age--;
+        }
+
+        ageInput.value = age;
+    });
+    const form = document.getElementById('myForm');
+    const passwordInput = document.getElementById('pswd');
+
+    form.addEventListener('registrationForm', function(event) {
+        const password = passwordInput.value;
+
+        // Check if password is less than 6 characters
+        if (password.length < 6) {
+            event.preventDefault(); // Prevent form submission
+            alert('Password must be at least 6 characters long.');
+            document.getElementById("pswd").focus();  // Focus on the IFSC input field
+            document.getElementById("pswd").style.borderColor = "red";  // Set border color to red
+            return false;
+        }
+    });
 
 </script>
 
