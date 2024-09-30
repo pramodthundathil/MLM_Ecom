@@ -300,11 +300,45 @@ def ProfileScreen(request):
     site = get_current_site(request)
     reflink = f"{site.domain}/SignUp/{request.user.id_number}"
     # print(user.first_name,"------------------------------------")
+
+    first_level_members = CustomUser.objects.filter(parent=user)
+
+    # A dictionary to hold the members for each level
+    all_levels_members = {
+        "level_1": first_level_members,
+        "level_2": [],
+        "level_3": [],
+        "level_4": [],
+        "level_5": []
+    }
+
+    # Recursive function to fetch members for each level
+    def get_downline_members(members, current_level, max_level):
+        if current_level > max_level:
+            return
+
+        # Find members sponsored by the current level members
+        next_level_members = CustomUser.objects.filter(parent__in=members)
+
+        # Store them in the appropriate level
+        all_levels_members[f"level_{current_level}"] = next_level_members
+
+        # Recursive call for the next level
+        get_downline_members(next_level_members, current_level + 1, max_level)
+
+    # Call the recursive function to get up to 5 levels of members
+    get_downline_members(first_level_members, 2, 5)
+
+    print(all_levels_members)
+
+    
     context = {
         "BV":BV,
         "bankdetails":bankdetails,
         "noinee":noinee,
-        "reflink":reflink
+        "reflink":reflink,
+        "first_level_members": first_level_members,
+        "all_levels_members": all_levels_members
     }
     return render(request,"userprofile.html",context)
 

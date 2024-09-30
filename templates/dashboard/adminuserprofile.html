@@ -1,6 +1,8 @@
 {% extends 'dashboard/index.html' %}
 {% load static %}
 {% block admin %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <style>
     /*Now the CSS*/
     * {
@@ -388,7 +390,7 @@ right connector from last child*/
                                                     {% endif %}
 
                                                 </h6>
-                        <h6>ID NUMBER: {{request.user.id_number}}</h6>
+                                                <h6>ID NUMBER: {{request.user.id_number}}</h6>
 
                                                 <div class="bv-details mt-5">
 
@@ -517,183 +519,346 @@ right connector from last child*/
                                                 class="btn btn-warning">Click to Disable</a> <br>
                                             <br>
                                             {% endif %}
-                                            <p class="mb-4">{{member.first_name}}'s Genealogy will Display Here</p>
-                                            <button id="zoom-in" class="btn btn-sm btn-outline-dark">Zoom In +</button>
-                                            <button id="zoom-out" class="btn btn-sm btn-outline-dark">Zoom Out
-                                                -</button>
+                                            <p class="mb-4">Your Genealogy will Display Here</p>
+                <!-- <button id="zoom-in" class="btn btn-sm btn-outline-dark">Zoom In +</button>
+                <button id="zoom-out" class="btn btn-sm btn-outline-dark">Zoom Out -</button> -->
 
-                                            <div class="genealogy">
-                                                <div class="zoom-container" id="zoomable">
+                <!-- <div class="genealogy">
+                    <div class="zoom-container" id="zoomable">
 
-                                                    <main class="main-content1" style="margin: auto;">
-                                                        <div class="tree mt-5 text-center">
-                                                            <ul>
-                                                                <li>
-                                                                    <a class="user text-primary"
-                                                                        id="user-{{ member.id }}"
-                                                                        data-user-id="{{ member.id }}"
-                                                                        style="font-weight: 700;">
-                                                                        <img src="{% static 'img/avathar.png' %}" alt=""
-                                                                            width="30px"> <br>
-                                                                        {{member.first_name }} <br>
-                                                                        <span class="badge bg-warning text-light ms-1"
-                                                                            style="background: #6b1010 !important;">view</span>
-                                                                    </a>
-                                                                    <!-- <ul>
-                                        Sub-tree structure will be dynamically generated here
-                                        <li>
-                                            <a href="#" class="left-user">
-                                                <img src="{% static 'img/avathar.png' %}" alt="" width="30px"> <br>
-                                                <button style="background:green;border-radius:5px;color:#fff;padding: 5px 5px;border:none;margin-top:10px">Add User</button>
-                                            </a>
-                                        </li>
-                                    </ul> -->
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </main>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        <main class="main-content1" style="margin: auto;">
+                            <div class="tree mt-5 text-center">
+                                <ul>
+                                    <li>
+                                        <a class="user text-primary" id="user-{{ request.user.id }}"
+                                            data-user-id="{{ request.user.id }}" style="font-weight: 700;">
+                                            <img src="{% static 'img/avathar.png' %}" alt="" width="30px"> <br>
+                                            <p >{{request.user.first_name}} </p>
+                                            <span class="badge bg-warning text-light ms-1"
+                                                style="background: #6b1010 !important;">view</span>
+                                        </a>
+                                        
+                                    </li>
+                                </ul>
                             </div>
-                        </div>
+                        </main>
+                    </div>
+                </div> -->
+
+                <div class="geneology">
+                    <div class="tree mt-5 text-center">
+                        
+                                <a class="user text-primary"  onclick="TableTreeDisplay()"
+                                     style="font-weight: 700;display: block; margin: auto; border: .5px solid;width: 100px;padding: 6px;">
+                                    <img src="{% static 'img/avathar.png' %}" alt="" width="30px"> <br>
+                                    <p >{{member.first_name}} </p>
+                                    <span class="badge bg-warning text-light ms-1"
+                                        style="background: #6b1010 !important;">view</span>
+                                </a>
+                                <div class="container mt-5" id="accodrd-container" style="display: none;">
+
+                                    <h2 class="tect-center">Statistics</h2>
+                                    <br>
+                                
+                                    <div class="accordion mb-5" id="accordionExample">
+                                        <div class="accordion-item">
+                                          <h2 class="accordion-header">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                <h4 class="text-primary">First Level Members</h4>
+                                            </button>
+                                          </h2>
+                                          <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <table class="table table-stripped">
+                                                    <tr>
+                                                        <th>Member Name</th>
+                                                    <th>ADCOS ID</th>
+                                                    <th>Date of join</th>
+                                                    </tr>
+                                                    {% for member in all_levels_members.level_1 %}
+                                                    <tr>
+                                                        <td>{{member.first_name}} {{member.last_name}}</td>
+                                                        <td>{{member.id_number}}</td>
+                                                        <td>{{member.date_joined}}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                    
+                                                </table>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                          <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                <h4 class="text-primary">Second Level Members</h4>
+                                            </button>
+                                          </h2>
+                                          <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <table class="table table-stripped">
+                                                    <tr>
+                                                        <th>Member Name</th>
+                                                    <th>ADCOS ID</th>
+                                                    <th>Date of join</th>
+                                                    </tr>
+                                                    {% for member in all_levels_members.level_2 %}
+                                                    <tr>
+                                                        <td>{{member.first_name}} {{member.last_name}}</td>
+                                                        <td>{{member.id_number}}</td>
+                                                        <td>{{member.date_joined}}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                    
+                                                </table>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                          <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                <h4 class="text-primary">Third Level Members</h4>
+                                            </button>
+                                          </h2>
+                                          <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <table class="table table-stripped">
+                                                    <tr>
+                                                        <th>Member Name</th>
+                                                    <th>ADCOS ID</th>
+                                                    <th>Date of join</th>
+                                                    </tr>
+                                                    {% for member in all_levels_members.level_3 %}
+                                                    <tr>
+                                                        <td>{{member.first_name}} {{member.last_name}}</td>
+                                                        <td>{{member.id_number}}</td>
+                                                        <td>{{member.date_joined}}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                    
+                                                </table>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                                <h4 class="text-primary">Fourth Level Members</h4>
+                                                  
+                                              </button>
+                                            </h2>
+                                            <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                              <div class="accordion-body">
+                                                <table class="table table-stripped">
+                                                    <tr>
+                                                        <th>Member Name</th>
+                                                    <th>ADCOS ID</th>
+                                                    <th>Date of join</th>
+                                                    </tr>
+                                                    {% for member in all_levels_members.level_4 %}
+                                                    <tr>
+                                                        <td>{{member.first_name}} {{member.last_name}}</td>
+                                                        <td>{{member.id_number}}</td>
+                                                        <td>{{member.date_joined}}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                    
+                                                </table>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                                <h4 class="text-primary">Fifth Level Members</h4>
+                                              </button>
+                                            </h2>
+                                            <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                              <div class="accordion-body">
+                                                <table class="table table-stripped">
+                                                    <tr>
+                                                        <th>Member Name</th>
+                                                    <th>ADCOS ID</th>
+                                                    <th>Date of join</th>
+                                                    </tr>
+                                                    {% for member in all_levels_members.level_5 %}
+                                                    <tr>
+                                                        <td>{{member.first_name}} {{member.last_name}}</td>
+                                                        <td>{{member.id_number}}</td>
+                                                        <td>{{member.date_joined}}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                    
+                                                </table>
+                                              </div>
+                                            </div>
+                                          </div>
+                                      </div>
+                                
+                                   
+                                    
+                                </div> 
+                          
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</main>
-                            <!-- </div> -->
+</div>
+<!-- </div> -->
 
-                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                            <script>
-                                $(document).ready(function () {
-                                    console.log("ajax loaded...");
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        console.log("ajax loaded...");
 
-                                    // Use event delegation to handle click events on dynamically added elements
-                                    $('body').on('click', 'li .user', function (e) {
-                                        console.log("Id clicked...");
-                                        e.preventDefault();
-                                        var parentNode = $(this).parent('li');
-                                        var userId = $(this).data('user-id');
-                                        console.log("Id clicked: " + userId);
+        // Use event delegation to handle click events on dynamically added elements
+        $('body').on('click', 'li .user', function (e) {
+            console.log("Id clicked...");
+            e.preventDefault();
+            var parentNode = $(this).parent('li');
+            var userId = $(this).data('user-id');
+            console.log("Id clicked: " + userId);
 
-                                        if (parentNode.children('ul').length === 0) {
-                                            $.ajax({
-                                                url: "{% url 'get_child_users' 1 %}", // Assuming this is the URL pattern
-                                                type: 'POST',
-                                                data: { userId: userId },
-                                                headers: {
-                                                    'X-Requested-With': 'XMLHttpRequest'
-                                                },
-                                                success: function (response) {
-                                                    generateChildNodes(parentNode, response);
-                                                },
-                                                error: function (error) {
-                                                    console.error('Error fetching data:', error);
-                                                }
-                                            });
-                                            console.log("ajax working");
-                                        }
-                                    });
+            if (parentNode.children('ul').length === 0) {
+                $.ajax({
+                    url: "{% url 'get_child_users' 1 %}", // Assuming this is the URL pattern
+                    type: 'POST',
+                    data: { userId: userId },
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function (response) {
+                        generateChildNodes(parentNode, response);
+                    },
+                    error: function (error) {
+                        console.error('Error fetching data:', error);
+                    }
+                });
+                console.log("ajax working");
+            }
+        });
 
-                                    function generateChildNodes(parentNode, children) {
-                                        console.log(children, "-----------------------");
-                                        var childNodesHtml = '<ul>';
-                                        $.each(children, function (index, child) {
-                                            childNodesHtml += '<li>';
-                                            childNodesHtml += '<a id="user-' + child.id + '" class="user ' + child.status + '" data-user-id="' + child.id + '">';
-                                            childNodesHtml += '<img src="{% static "img/avathar.png" %}" alt="" width="30px"> <br>' + child.first_name;
-                                            childNodesHtml += '<br><span class="badge bg-warning text-light ms-1" style="background: #6b1010 !important;">View </span>';
-                                            // childNodesHtml += '<span class="badge bg-warning text-light ms-1" style="background: #6b1010 !important;">HOMEB ' + child.right_count + '</span>';
-                                            childNodesHtml += '</a>';
-                                            childNodesHtml += '</li>';
-                                        });
-                                        childNodesHtml += '</ul>';
+        function generateChildNodes(parentNode, children) {
+            console.log(children, "-----------------------");
+            var childNodesHtml = '<ul>';
+            $.each(children, function (index, child) {
+                childNodesHtml += '<li>';
+                childNodesHtml += '<a id="user-' + child.id + '" class="user ' + child.status + '" data-user-id="' + child.id + '">';
+                childNodesHtml += '<img src="{% static "img/avathar.png" %}" alt="" width="30px"> <p>' + child.first_name + '</p>';
+                childNodesHtml += '<br><span class="badge bg-warning text-light ms-1" style="background: #6b1010 !important;">View </span>';
+                // childNodesHtml += '<span class="badge bg-warning text-light ms-1" style="background: #6b1010 !important;">HOMEB ' + child.right_count + '</span>';
+                childNodesHtml += '</a>';
+                childNodesHtml += '</li>';
+            });
+            childNodesHtml += '</ul>';
 
-                                        parentNode.append(childNodesHtml);
-                                    }
-                                });
+            parentNode.append(childNodesHtml);
+        }
+    });
 
-                                // zoom item 
-                                // script.js
-                                document.addEventListener('DOMContentLoaded', () => {
-                                    const zoomInButton = document.getElementById('zoom-in');
-                                    const zoomOutButton = document.getElementById('zoom-out');
-                                    const zoomableElement = document.getElementById('zoomable');
+    // zoom item 
+    // script.js
+    document.addEventListener('DOMContentLoaded', () => {
+        const zoomInButton = document.getElementById('zoom-in');
+        const zoomOutButton = document.getElementById('zoom-out');
+        const zoomableElement = document.getElementById('zoomable');
 
-                                    let scale = 1;
-                                    let isDragging = false;
-                                    let startX, startY, initialLeft, initialTop;
+        let scale = 1;
+        let isDragging = false;
+        let startX, startY, initialLeft, initialTop;
 
-                                    // Zoom In
-                                    zoomInButton.addEventListener('click', () => {
-                                        scale += 0.1; // Increase scale by 0.1
-                                        updateTransform();
-                                    });
+        // Zoom In
+        zoomInButton.addEventListener('click', () => {
+            scale += 0.1; // Increase scale by 0.1
+            updateTransform();
+        });
 
-                                    // Zoom Out
-                                    zoomOutButton.addEventListener('click', () => {
-                                        scale -= 0.1; // Decrease scale by 0.1
-                                        if (scale < 0.1) scale = 0.1; // Prevent scaling below a certain level
-                                        updateTransform();
-                                    });
+        // Zoom Out
+        zoomOutButton.addEventListener('click', () => {
+            scale -= 0.1; // Decrease scale by 0.1
+            if (scale < 0.1) scale = 0.1; // Prevent scaling below a certain level
+            updateTransform();
+        });
 
-                                    function updateTransform() {
-                                        zoomableElement.style.transform = `scale(${scale})`;
-                                        zoomableElement.style.transformOrigin = '0 0'; // Zoom from top-left corner
-                                        adjustPosition();
-                                    }
+        function updateTransform() {
+            zoomableElement.style.transform = `scale(${scale})`;
+            zoomableElement.style.transformOrigin = '0 0'; // Zoom from top-left corner
+            adjustPosition();
+        }
 
-                                    function adjustPosition() {
-                                        const containerRect = zoomableElement.parentElement.getBoundingClientRect();
-                                        const contentRect = zoomableElement.getBoundingClientRect();
+        function adjustPosition() {
+            const containerRect = zoomableElement.parentElement.getBoundingClientRect();
+            const contentRect = zoomableElement.getBoundingClientRect();
 
-                                        const containerWidth = containerRect.width;
-                                        const containerHeight = containerRect.height;
-                                        const contentWidth = contentRect.width;
-                                        const contentHeight = contentRect.height;
+            const containerWidth = containerRect.width;
+            const containerHeight = containerRect.height;
+            const contentWidth = contentRect.width;
+            const contentHeight = contentRect.height;
 
-                                        const maxLeft = Math.min(0, containerWidth - contentWidth);
-                                        const maxTop = Math.min(0, containerHeight - contentHeight);
+            const maxLeft = Math.min(0, containerWidth - contentWidth);
+            const maxTop = Math.min(0, containerHeight - contentHeight);
 
-                                        let newLeft = Math.max(maxLeft, Math.min(0, parseFloat(zoomableElement.style.left || 0)));
-                                        let newTop = Math.max(maxTop, Math.min(0, parseFloat(zoomableElement.style.top || 0)));
+            let newLeft = Math.max(maxLeft, Math.min(0, parseFloat(zoomableElement.style.left || 0)));
+            let newTop = Math.max(maxTop, Math.min(0, parseFloat(zoomableElement.style.top || 0)));
 
-                                        zoomableElement.style.left = `${newLeft}px`;
-                                        zoomableElement.style.top = `${newTop}px`;
-                                    }
+            zoomableElement.style.left = `${newLeft}px`;
+            zoomableElement.style.top = `${newTop}px`;
+        }
 
-                                    // Dragging
-                                    zoomableElement.addEventListener('mousedown', (e) => {
-                                        isDragging = true;
-                                        startX = e.clientX;
-                                        startY = e.clientY;
-                                        initialLeft = zoomableElement.offsetLeft;
-                                        initialTop = zoomableElement.offsetTop;
-                                        document.addEventListener('mousemove', drag);
-                                        document.addEventListener('mouseup', stopDrag);
-                                    });
+        // Dragging
+        zoomableElement.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            initialLeft = zoomableElement.offsetLeft;
+            initialTop = zoomableElement.offsetTop;
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+        });
 
-                                    function drag(e) {
-                                        if (isDragging) {
-                                            const dx = e.clientX - startX;
-                                            const dy = e.clientY - startY;
-                                            zoomableElement.style.left = `${initialLeft + dx}px`;
-                                            zoomableElement.style.top = `${initialTop + dy}px`;
-                                            adjustPosition();
-                                        }
-                                    }
+        function drag(e) {
+            if (isDragging) {
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                zoomableElement.style.left = `${initialLeft + dx}px`;
+                zoomableElement.style.top = `${initialTop + dy}px`;
+                adjustPosition();
+            }
+        }
 
-                                    function stopDrag() {
-                                        isDragging = false;
-                                        document.removeEventListener('mousemove', drag);
-                                        document.removeEventListener('mouseup', stopDrag);
-                                    }
-                                });
+        function stopDrag() {
+            isDragging = false;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', stopDrag);
+        }
+    });
 
-                            </script>
+</script>
+<script>
+    function copyInputValue() {
+      // Get the input field
+      var input = document.getElementById("inputField");
+    
+      // Copy the input value to the clipboard using the Clipboard API
+      navigator.clipboard.writeText(input.value)
+        .then(() => {
+          // Optional: Display a message or visual confirmation
+          alert("Copied: " + input.value);
+        })
+        .catch(err => {
+          console.error('Failed to copy: ', err);
+          alert('Failed to copy text.');
+        });
+    }
+    function TableTreeDisplay(){
+        const boxvalue = document.getElementById("accodrd-container");
+        if (boxvalue.style.display == "none"){
+            boxvalue.style.display = "block";
+        }
+        else{
+            boxvalue.style.display = "none"; 
+        };
+    };
+    </script>
 
-                            {% endblock %}
+{% endblock %}
