@@ -192,14 +192,20 @@
                         <ul>
                             <li class="active"><a href="{%url 'Index' %}">Home</a></li>
                             <li><a href="{%url 'ProductList' %}">Products</a></li>
+                            {% if request.user.is_authenticated %}
+
                             <li><a href="#">Purchase</a>
                                 <ul class="header__menu__dropdown">
                                     <li><a href="{%url 'myorders' %}">My Order</a></li>
                                     <li><a href="{%url 'Cart_Page' %}">Shoping Cart</a></li>
                                 </ul>
                             </li>
+                            {% endif %}
+                            {% if request.user.is_authenticated %}
                             <li><a href="{%url 'ProfileScreen' %}">Profile</a></li>
-                            <!-- <li><a href="./contact.html">Contact</a></li> -->
+                            {% else %}
+                            <li><a href="{%url 'StateSponsership' %}">Get SponserShip</a></li>
+                            {% endif %}
                             
                             
                         </ul>
@@ -266,8 +272,8 @@
                             <li><a href="#">Electricals and Electronics</a></li>
                             <li><a href="#">Book & Stationeries</a></li>
                             <li><a href="#">Travel</a></li>
-                            <li><a href="#">Air Tikets</a></li>
-                            <li><a href="#">Bus Tikets</a></li>
+                            <li><a href="#">Air Tickets</a></li>
+                            <li><a href="#">Bus Tickets</a></li>
                             <li><a href="#">Cab Booking</a></li>
                         </ul>
                     </div>

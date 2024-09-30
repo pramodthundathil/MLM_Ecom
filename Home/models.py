@@ -98,7 +98,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return str(uuid.uuid4().hex[:5]).upper()
         
     def __str__(self):
-        return self.email
+        return str(self.first_name + " " + self.last_name)
 
 class Business_Volume(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)

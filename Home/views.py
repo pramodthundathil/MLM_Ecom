@@ -202,7 +202,7 @@ def verify_otp(request, pk):
                 user_otp.delete()
                 try:
                     message = client.messages.create(
-                                body = f"Your ADCOS E-COMMERCE COMPANY Account Is Activated on id {user.id_number} ",
+                                body = f"Welcome! Successfully Registerd your ADCOS Account on id {user.id_number}- adcos.in",
                                 from_ = '+15109014729',
                                 to=f'+91{user.phone_number}'
                             )

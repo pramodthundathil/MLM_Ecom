@@ -313,6 +313,12 @@ right connector from last child*/
         height: auto;
         overflow: auto;
     }
+    .user p{
+        overflow: auto;
+    }
+    .user p::-webkit-scrollbar{
+        display: none;
+    }
 </style>
 
 
@@ -327,7 +333,7 @@ right connector from last child*/
                 <img class="img-fluid mb-4" src="img/icon-1.png" alt="">
                 <h5 class="mb-3">Profile Data</h5>
                 <hr>
-                <a href="{%url 'generate_id_card' %}" target="_blank" class="btn btn-info btn-sm text-center">View Id Vard</a>
+                <a href="{%url 'generate_id_card' %}" target="_blank" class="btn btn-info btn-sm text-center">View Id Card</a>
                 <br>
                 <a href="{%url 'generate_id_card_pdf' %}" class="nav-link" target="_blank">Id card Download</a>
                 <hr>
@@ -511,7 +517,7 @@ right connector from last child*/
                                         <a class="user text-primary" id="user-{{ request.user.id }}"
                                             data-user-id="{{ request.user.id }}" style="font-weight: 700;">
                                             <img src="{% static 'img/avathar.png' %}" alt="" width="30px"> <br>
-                                            {{request.user.first_name }} <br>
+                                            <p >{{request.user.first_name}} </p>
                                             <span class="badge bg-warning text-light ms-1"
                                                 style="background: #6b1010 !important;">view</span>
                                         </a>
@@ -574,7 +580,7 @@ right connector from last child*/
             $.each(children, function (index, child) {
                 childNodesHtml += '<li>';
                 childNodesHtml += '<a id="user-' + child.id + '" class="user ' + child.status + '" data-user-id="' + child.id + '">';
-                childNodesHtml += '<img src="{% static "img/avathar.png" %}" alt="" width="30px"> <br>' + child.first_name;
+                childNodesHtml += '<img src="{% static "img/avathar.png" %}" alt="" width="30px"> <p>' + child.first_name + '</p>';
                 childNodesHtml += '<br><span class="badge bg-warning text-light ms-1" style="background: #6b1010 !important;">View </span>';
                 // childNodesHtml += '<span class="badge bg-warning text-light ms-1" style="background: #6b1010 !important;">HOMEB ' + child.right_count + '</span>';
                 childNodesHtml += '</a>';

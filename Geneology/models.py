@@ -10,3 +10,8 @@ class Franchise_request(models.Model):
     def __str__(self):
         return 'Franchise Request on {} For {}'.format(self.date, self.frachise_type) 
 
+class FreeSponsership(models.Model):
+    name = models.CharField(max_length=100)
+    idnumber = models.CharField(max_length=10)
+    date = models.DateField(auto_now_add=True)
+    

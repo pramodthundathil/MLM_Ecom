@@ -194,7 +194,7 @@ def generate_unique_id_number():
 @login_required(login_url='SignIn')
 def UserAddByAdmin(request,token):
     sponser = CustomUser.objects.get(id_number = token)
-    
+
     if request.method == 'POST':
         fname = request.POST.get('fname')
         lname = request.POST.get('lname')
@@ -220,18 +220,18 @@ def UserAddByAdmin(request,token):
 
         if pswd != cpassword:
             messages.error(request, "Passwords do not match.")
-            return redirect('register')
+            return redirect('UserAddByAdmin',token = token)
 
         try:
             if CustomUser.objects.filter(pancard = pan ).exists():
                 messages.info(request,"Pancard Alredy exists...")
-                return redirect("UsersingleViewAdmin",token = token)
+                return redirect("UserAddByAdmin",token = token)
             if CustomUser.objects.filter(email = email ).exists():
                 messages.info(request,"Email Id  Already exists...")
-                return redirect("UsersingleViewAdmin",token = token)
+                return redirect("UserAddByAdmin",token = token)
             if CustomUser.objects.filter(phone_number=pnum).exists():
                 messages.info(request,"Phonenumber  Already exists...")
-                return redirect("UsersingleViewAdmin",token = token)
+                return redirect("UserAddByAdmin",token = token)
             else:
                 user = CustomUser.objects.create(
                     email=email,
@@ -270,7 +270,7 @@ def UserAddByAdmin(request,token):
                     id_proof=id_card
                 )
                 messages.success(request, "User registered successfully.")
-                return redirect("UsersingleViewAdmin", pk = user.id )
+                return redirect("UsersAdminPannel")
 
         except ValidationError as e:
             messages.error(request, e.messages)
@@ -450,6 +450,28 @@ def GeneologyStatistic(request):
         "all_levels_members": all_levels_members
     }
     return render(request, 'statistics.html', context)
+
+
+def StateSponsership(request):
+    sponsers = FreeSponsership.objects.all()
+    return render(request,"unregistedusers_freesponsership.html",{"sponsers":sponsers})
+
+@login_required(login_url='SignIn')
+def FreesponsershipAdd(request):
+    sponser = FreeSponsership.objects.all()
+    if request.method == "POST":
+        sponser = request.POST.get('name')
+        idnumber = request.POST.get('idnum')
+        sponser = FreeSponsership.objects.create(name = sponser, idnumber = idnumber)
+        sponser.save()
+        messages.success(request,"State Sponsership Added..")
+        return redirect("FreesponsershipAdd")
+    return render(request,"dashboard/sponsership.html",{"sponser":sponser})
+
+def DeleteFreeSponsership(request,pk):
+    FreeSponsership.objects.get(id = pk).delete()
+    messages.info(request,"Sponsership Deleted....")
+    return redirect("FreesponsershipAdd")
 
 
 

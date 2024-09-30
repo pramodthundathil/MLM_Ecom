@@ -23,6 +23,10 @@ urlpatterns = [
         path("generate_id_card",views.generate_id_card,name="generate_id_card"),
         path("generate_id_card_pdf",views.generate_id_card_pdf,name="generate_id_card_pdf"),
         path("GeneologyStatistic",views.GeneologyStatistic,name="GeneologyStatistic"),
+        path("StateSponsership",views.StateSponsership,name="StateSponsership"),
+        path("FreesponsershipAdd",views.FreesponsershipAdd,name="FreesponsershipAdd"),
+        path("DeleteFreeSponsership/<int:pk>",views.DeleteFreeSponsership,name="DeleteFreeSponsership"),
+        
 
 
         

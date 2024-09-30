@@ -1,0 +1,35 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<!-- Registration Start -->
+<div class="container-xxl py-6 mt-5 mb-5">
+    <div class="container mt-4"
+        style="max-width: 960px;box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;padding: 20px; border-radius: 30px;">
+        <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s"
+            style="max-width: 500px;">
+            <h1 class="display-5 mb-3">Get Free Sponsership</h1>
+            <p>Click on Your State</p>
+            {% for message in messages %}
+
+            <div class="alert {{message.tags}} alert-dismissible fade show" role="alert">
+                <strong>Alert!</strong> {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        
+        
+                <table class="table text-center">
+                   {% for item in sponsers %}
+                    <tr>
+                        <th style="text-transform: uppercase;">{{item.name}}</th>
+                        <td><a href="{%url 'SignUp' item.idnumber %}" class="btn btn-outline-primary">Get Sponsership Form</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+        
+    </div>
+</div>
+
+
+{% endblock %}
