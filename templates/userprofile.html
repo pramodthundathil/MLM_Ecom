@@ -344,7 +344,7 @@ right connector from last child*/
                         <img src="{%static 'vendors/images/photo1.jpg' %}" height="100px" alt="" class="avatar-photo">
                     </div>
                     <h5 class="text-center h5 mb-0">{{request.user.first_name}} {{request.user.last_name}}</h5>
-                    <p class="text-center text-muted font-14">Username: {{request.user}}</p>
+                    <p class="text-center h4 text-primary font-14">Username: {{request.user}}</p><br>
                     <h6>
                         {% if request.user.bv_active_status == False %}
                         <img src="{%static 'img/level_1_badge.png' %}" width="50px" alt="">
