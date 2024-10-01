@@ -405,6 +405,12 @@ def password_change_done(request):
     return render(request,"passwordchanged.html")
 
 
+def TeamsAndConditions(request):
+    return render(request,"termsandconditions.html")
+
+def PrivacyPolicy(request):
+    return render(request,"privacy_policy.html")
+
 
 
 

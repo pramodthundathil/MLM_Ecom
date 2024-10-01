@@ -19,5 +19,7 @@ urlpatterns = [
 
     path('change_password', views.change_password, name='change_password'),
     path('password_change_done', views.password_change_done, name='password_change_done'),
+    path("TeamsAndConditions",views.TeamsAndConditions,name="TeamsAndConditions"),
+    path("PrivacyPolicy",views.PrivacyPolicy,name="PrivacyPolicy")
     
 ]
