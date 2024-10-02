@@ -208,11 +208,11 @@ def verify_otp(request, pk):
                             )
                 except:
                     print("Failed to sent sms")
-                email = request.POST['email']
+                email = user.email
                 current_site = get_current_site(request)
                 mail_subject = 'Accout Activated - ADCOS E-COMMERCE COMPANY'
                 path = "SignUp"
-                message = render_to_string('emailbody_otp.html', {'user': user,
+                message = render_to_string('email_welcome.html', {'user': user,
                                                                     'domain': current_site.domain,
                                                                     'path':path,
                                                                     'user_id':user.id_number,})
@@ -224,9 +224,9 @@ def verify_otp(request, pk):
         except UserOTP.DoesNotExist:
             # OTP is incorrect
             messages.info(request,"Invalid OTP")
-            return redirect("OTPverification")
+            return redirect("OTPverification",pk = pk)
     
-    return redirect("OTPverification")
+    return redirect("OTPverification",pk = pk)
 
 def VeryfiedOTP(request):
     return render(request, 'verified_otp.html')
