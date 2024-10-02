@@ -46,14 +46,16 @@
             cursor: pointer;
         }
 </style>
-<div class="container-xxl py-6 mt-5">
+<div class="container-xxl py-6 mt-5 mb-5">
     <div class="container mt-4"
         style="max-width: 720px;box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;padding: 20px; border-radius: 30px;">
 
         <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s"
             style="max-width: 500px;">
             <h1 class="display-5 mb-3">OTP VALIDATION</h1>
-            <p>Please Enter the otp sent to your mobile number or email id to Verify the details</p>
+            <p>Your ADCOS ID was Created Adcosid: <span style="font-size: larger;color:red">{{user.id_number}}</span></p>
+            <p class="text-primary">* Note: Save The adcos ID for future refrence</p>
+
             <hr><br>
             {% for message in messages %}
 
@@ -80,7 +82,10 @@
                         <button type="submit" class="btn btn-primary btn-lg" >Verfy</button>
                     </form>
 
+
                         </div>
+            <p>Please Enter the otp sent to your mobile number or email id to Verify the details</p>
+
                  
             </div>
 

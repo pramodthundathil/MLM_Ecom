@@ -53,6 +53,7 @@
         <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s"
             style="max-width: 500px;">
             <h1 class="display-5 mb-3">OTP VALIDATION</h1>
+            <p>Your ADCOS ID was Created Adcosid: <span style="font-size: larger;color:red">{{user1.id_number}}</span></p>
             <p>Please Enter the otp sent to your mobile number or email id to Verify the details</p>
             <hr><br>
             {% for message in messages %}
@@ -65,7 +66,7 @@
 
             <div>
                 
-                    <h2>Enter Your OTP</h2>
+                    <h2>Enter Your OTP </h2>
                     <form action="" id="myForm" autocomplete="off">
                         <div class="otp-container">
                             <input type="text" maxlength="1" name="">

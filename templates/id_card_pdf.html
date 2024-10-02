@@ -41,9 +41,9 @@
             <img src="{%static 'img\adcos_in.png' %}" width="100px" alt="">
             <hr>
         </div>
-        <h2>Name: {{ user.first_name }} {{ user.last_name }}</h2>
-        <p><strong>ID Number:</strong> {{ user.id_number }}</p>
-        <p><strong>Sponsor:</strong> {{ user.parent.first_name }}</p>
+        <h4>Name: {{ user.first_name }} {{ user.last_name }}</h4>
+        <p>ID Number:<strong>{{ user.id_number }}</strong></p>
+        <p>Sponsor: <strong>{{ user.parent.first_name }}</strong></p>
         
         <!-- Display QR Code -->
         <div class="qr-code" >
