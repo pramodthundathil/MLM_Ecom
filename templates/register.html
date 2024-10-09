@@ -196,7 +196,7 @@
 
 
                         <div class="col-12">
-                            <button class="btn btn-primary rounded-pill py-3 px-5" type="submit"
+                            <button onclick="Loader()" class="btn btn-primary rounded-pill py-3 px-5" type="submit"
                                 id="submitBtn">SignUp</button>
                         </div>
                     </div>
@@ -207,6 +207,19 @@
     </div>
 </div>
 <!-- Registration End -->
+
+<!-- Loading Spinner (Initially Hidden) -->
+<div id="loadingSpinner" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255, 255, 255, 0.7);z-index:9999;justify-content:center;align-items:center;text-align: center;">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="text-primary" >
+        <p>Please Wait Validating.......</p>
+
+    </div>
+
+</div>
+
 <script>
     let isIFSCValid = false;
     let isPincode = false  // Track the validity of IFSC
@@ -351,6 +364,13 @@
             return false;
         }
     });
+
+    function Loader(){
+        document.getElementById("loadingSpinner").style.display = "flex"; 
+        setTimeout(function () {
+        document.getElementById("loadingSpinner").style.display = "none";
+    }, 5000);
+    }
 
 </script>
 

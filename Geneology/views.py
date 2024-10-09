@@ -151,6 +151,8 @@ def UsersingleViewAdmin(request,pk):
     bankdetails = AccountDetails.objects.get(user = user)
     noinee = Nominee.objects.get(user = user)
     first_level_members = CustomUser.objects.filter(parent=user)
+    site = get_current_site(request)
+    reflink = f"{site.domain}/SignUp/{user.id_number}"
 
     # A dictionary to hold the members for each level
     all_levels_members = {
@@ -187,7 +189,8 @@ def UsersingleViewAdmin(request,pk):
         "all_levels_members": all_levels_members,
         "bankdetails":bankdetails,
         "noinee":noinee,
-        "member":user
+        "member":user,
+        "reflink":reflink
     }
     return render(request,"dashboard/adminuserprofile.html",context)
 
@@ -405,6 +408,79 @@ def generate_id_card(request):
     }
 
     return render(request, 'id_card.html', context)
+
+@login_required(login_url='SignIn')
+def generate_id_card_admin(request,pk):
+     # Get the user instance
+    user =  CustomUser.objects.get(id = pk)
+    
+     # Generate the QR code
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    current_site = get_current_site(request)
+    domain = current_site.domain
+    qr_data = f"{domain}/SignUp/{user.id_number}"
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+
+    # Generate QR code image
+    img = qr.make_image(fill='Green', back_color='white')
+
+    # Save the QR code to a BytesIO object
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    buffer.seek(0)
+
+    # Encode the image to base64
+    qr_code_image = base64.b64encode(buffer.read()).decode('utf-8')
+
+    # Pass the encoded image to the template
+    context = {
+        'user': user,
+        'qr_code_image': qr_code_image
+    }
+
+    return render(request, 'id_card.html', context)
+
+@login_required(login_url='SignIn')
+def generate_id_card_pdf_admin(request,pk):
+    user =  CustomUser.objects.get(id = pk)
+    
+     # Generate the QR code
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    current_site = get_current_site(request)
+    domain = current_site.domain
+    qr_data = f"{domain}/SignUp/{user.id_number}"
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+
+    # Generate QR code image
+    img = qr.make_image(fill='Green', back_color='white')
+
+    # Save the QR code to a BytesIO object
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    buffer.seek(0)
+
+    # Encode the image to base64
+    qr_code_image = base64.b64encode(buffer.read()).decode('utf-8')
+
+    # Pass the encoded image to the template
+    context = {
+        'user': user,
+        'qr_code_image': qr_code_image
+    }
+
+    return render(request, 'id_card_pdf.html', context)
 
 
 

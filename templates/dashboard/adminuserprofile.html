@@ -362,6 +362,7 @@ right connector from last child*/
                                                     <img src="{%static 'vendors/images/photo1.jpg' %}" height="100px"
                                                         alt="" class="avatar-photo">
                                                 </div>
+                                                
                                                 <h5 class="text-center h5 mb-0">{{member.first_name}}
                                                     {{member.last_name}}</h5>
                                                 <p class="text-center text-muted font-14">Username: {{member}}</p>
@@ -390,30 +391,37 @@ right connector from last child*/
                                                     {% endif %}
 
                                                 </h6>
-                                                <h6>ID NUMBER: {{request.user.id_number}}</h6>
+                                                <h6>ID NUMBER: {{member.id_number}}</h6>
+                                                <a href="{%url 'generate_id_card_admin' member.id %}" target="_blank" class="btn btn-info btn-sm text-center">View Id Card</a>
+                <br>
+                <a href="{%url 'generate_id_card_pdf_admin' member.id %}" class="nav-link" target="_blank">Id card Download</a>
 
                                                 <div class="bv-details mt-5">
 
                                                     <h4>Total Purchase BV: <span
                                                             class="text-primary">{{BV.purchase_bv}}</span></h4>
-                                                    <div class="row mb-3"
-                                                        style="font-size: x-small;padding: 10px;border: .5px solid gray;">
-                                                        <div class="col" style="border-right: .5px solid gray;">
-                                                            Total Refetel Bv:
-                                                            <br>
-                                                            <h6 class="text-info">{{BV.bv_amount}}</h6>
-                                                        </div>
-                                                        <div class="col" style="border-right: .5px solid gray;">
-                                                            Total Withdwen:
-                                                            <br>
-                                                            <h6 class="text-primary">{{BV.total_bv}}</h6>
-                                                        </div>
-                                                        <div class="col">
-                                                            Balance BV:
-                                                            <br>
-                                                            <h6 class="text-warning">{{BV.balance_bv}}</h6>
-                                                        </div>
-                                                    </div>
+                                                            <div class="row mb-3" style="font-size: x-small;padding: 10px;border: .5px solid gray;">
+                                                                <div class="col" style="border-right: .5px solid gray;">
+                                                                    Total RefetelBv:
+                                                                    <br>
+                                                                    <h6 class="text-info">{{BV.bv_amount}}</h6>
+                                                                </div>
+                                                                <div class="col" style="border-right: .5px solid gray;">
+                                                                    Total Level Bv:
+                                                                    <br>
+                                                                    <h6 class="text-info">{{BV.bv_amount}}</h6>
+                                                                </div>
+                                                                <div class="col" style="border-right: .5px solid gray;">
+                                                                    Total Withdwen:
+                                                                    <br>
+                                                                    <h6 class="text-primary">{{BV.total_bv}}</h6>
+                                                                </div>
+                                                                <div class="col">
+                                                                    Balance BV:
+                                                                    <br>
+                                                                    <h6 class="text-warning">{{BV.balance_bv}}</h6>
+                                                                </div>
+                                                            </div>
                                                 </div>
 
                                                 <div class="profile-info mt-2">
@@ -484,16 +492,20 @@ right connector from last child*/
 
                                                 </div>
                                                 <div class="reflink">
-                                                    <!-- <h5 class="mb-20 h5 text-blue">Reference Link</h5> -->
+                                                    <h5 class="mb-20 h5 text-blue">Reference Link</h5>
                                                     <hr>
                                                     <!-- <form method="post" action="{%url 'SentRefrelLink' %}">
                                                         {% csrf_token %}
                                                         <label for="">Send Reference link Via Email</label>
-                                                        <input type="email" name="email"
-                                                            placeholder="Enter Email Id For Invitation"
+                                                        <input type="email" name="email" placeholder="Enter Email Id For Invitation"
                                                             class="form-control"><br>
                                                         <button class="btn btn-primary">Send Reference Link</button>
                                                     </form> -->
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" class="form-control border-0" disabled value="{{reflink}}"  aria-label="Example text with button addon" id="inputField" aria-describedby="button-addon1">
+                                                        <button class="btn btn-outline-primary" type="button" id="button-addon1" onclick="copyInputValue()">Copy</button>
+                            
+                                                      </div>
                                                 </div>
                                                 <!-- <div class="franchise_area mt-3">
                                                     <a href="{%url 'Franchise_Request' %}" class="text-decoration"
@@ -860,5 +872,31 @@ right connector from last child*/
         };
     };
     </script>
+    <script>
+        function copyInputValue() {
+          // Get the input field
+          var input = document.getElementById("inputField");
+        
+          // Copy the input value to the clipboard using the Clipboard API
+          navigator.clipboard.writeText(input.value)
+            .then(() => {
+              // Optional: Display a message or visual confirmation
+              alert("Copied: " + input.value);
+            })
+            .catch(err => {
+              console.error('Failed to copy: ', err);
+              alert('Failed to copy text.');
+            });
+        }
+        function TableTreeDisplay(){
+            const boxvalue = document.getElementById("accodrd-container");
+            if (boxvalue.style.display == "none"){
+                boxvalue.style.display = "block";
+            }
+            else{
+                boxvalue.style.display = "none"; 
+            };
+        };
+        </script>
 
 {% endblock %}

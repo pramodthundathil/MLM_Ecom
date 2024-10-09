@@ -166,7 +166,7 @@ def SignUp(request,token):
                 email = EmailMessage(mail_subject, message, to=[email])
                 email.send(fail_silently=True)
 
-                messages.success(request, "User registered successfully.")
+                messages.success(request, "User registration accepted. Please enter the OTP to activate your ID.")
                 return redirect('OTPverification', pk = user.id)
         except ValidationError as e:
             messages.error(request, e.messages)

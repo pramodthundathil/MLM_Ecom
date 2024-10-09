@@ -26,6 +26,8 @@ urlpatterns = [
         path("StateSponsership",views.StateSponsership,name="StateSponsership"),
         path("FreesponsershipAdd",views.FreesponsershipAdd,name="FreesponsershipAdd"),
         path("DeleteFreeSponsership/<int:pk>",views.DeleteFreeSponsership,name="DeleteFreeSponsership"),
+        path("generate_id_card_pdf_admin/<int:pk>",views.generate_id_card_pdf_admin,name="generate_id_card_pdf_admin"),
+        path("generate_id_card_admin/<int:pk>",views.generate_id_card_admin,name="generate_id_card_admin"),
         
 
 
