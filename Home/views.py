@@ -100,9 +100,9 @@ def SignUp(request,token):
             return redirect('register')
 
         try:
-            if CustomUser.objects.filter(pancard = pan ).exists():
-                messages.info(request,"Pancard Alredy exists...")
-                return redirect("SignUp",token = token)
+            # if CustomUser.objects.filter(pancard = pan ).exists():
+            #     messages.info(request,"Pancard Alredy exists...")
+            #     return redirect("SignUp",token = token)
             if CustomUser.objects.filter(email = email ).exists():
                 messages.info(request,"Email Id  Already exists...")
                 return redirect("SignUp",token = token)
@@ -164,6 +164,7 @@ def SignUp(request,token):
                                                                     'token':otp,})
 
                 email = EmailMessage(mail_subject, message, to=[email])
+                email.content_subtype = "html"
                 email.send(fail_silently=True)
 
                 messages.success(request, "User registration accepted. Please enter the OTP to activate your ID.")
@@ -218,6 +219,8 @@ def verify_otp(request, pk):
                                                                     'user_id':user.id_number,})
 
                 email = EmailMessage(mail_subject, message, to=[email])
+                email.content_subtype = "html"
+
                 email.send(fail_silently=True)
 
                 return redirect('VeryfiedOTP')
@@ -242,7 +245,7 @@ def SignIn(request):
                 otp = generate_otp(user1)
                 email = user1.email
                 current_site = get_current_site(request)
-                mail_subject = 'OTP for Account Creation DSES'
+                mail_subject = 'OTP for Account Creation ADCOS Ecommerce'
                 path = "SignUp"
                 message = render_to_string('emailbody_otp.html', {'user': user1,
                                                                     'domain': current_site.domain,
@@ -250,6 +253,7 @@ def SignIn(request):
                                                                     'token':otp,})
 
                 email = EmailMessage(mail_subject, message, to=[email])
+                email.content_subtype = "html"
                 email.send(fail_silently=True)
 
                 messages.success(request, "Your OTP verification is pending please verify OTP")
@@ -411,6 +415,23 @@ def TeamsAndConditions(request):
 def PrivacyPolicy(request):
     return render(request,"privacy_policy.html")
 
+
+def TestingPage(request):
+    return render(request,"test.html")
+def SentTestMail(request):
+    email = 'gopinath.pramod@gmail.com'
+    current_site = get_current_site(request)
+    mail_subject = 'OTP for Account Creation ADCOS'
+    path = "SignUp"
+    message = render_to_string('emailbody_otp_test.html', {'user': "Pramod",
+                                                        'domain': current_site.domain,
+                                                        'path':path,
+                                                        'token':"1234",})
+    email = EmailMessage(mail_subject, message, to=[email])
+    email.content_subtype = "html"
+    email.send(fail_silently=True)
+
+    return redirect("TestingPage")
 
 
 

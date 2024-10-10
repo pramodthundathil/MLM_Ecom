@@ -107,19 +107,19 @@
                             </div>
                         </div>
                     </div>
-                    <h6 class="mt-5">Bank Details</h6>
-                    <hr class="text-primary">
-                    <div class="row g-3">
+                    <!-- <h6 class="mt-5">Bank Details</h6> -->
+                    <!-- <hr class="text-primary"> -->
+                    <div class="row g-3" style="display: none;">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" required name="pan" id="pancard"
-                                    placeholder="Pancar Number">
+                                <input type="text" class="form-control" required name="pan" value="nil" id="pancard"
+                                    placeholder="Pancard Number">
                                 <label for="email">Pan Card</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" required name="ac_num" id="account"
+                                <input type="text" class="form-control" value="nil" required name="ac_num" id="account"
                                     placeholder="Account Number">
                                 <label for="email">Account Number</label>
                             </div>
@@ -127,7 +127,7 @@
 
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" oninput="getIFSC(this.value)" required
+                                <input type="text" class="form-control" oninput="getIFSC(this.value)" value="nil" required
                                     name="ifsc" id="ifsc" placeholder="IFSC Code">
                                 <label for="ifsc">IFSC Code</label>
                                 <small id="ifscStatus" class="">Not verified</small>
@@ -136,7 +136,7 @@
                         </div>
                         <div class="col-md-6">
                             <!-- <div class="form-floating"> -->
-                            <input type="text" class="form-control" hidden name="branch" id="bank_branch"
+                            <input type="text" class="form-control" hidden name="branch" value="nil"  id="bank_branch"
                                 placeholder="Bank Branch ">
                             <label for="email">Bank Branch</label>
                             <!-- </div> -->
@@ -221,7 +221,7 @@
 </div>
 
 <script>
-    let isIFSCValid = false;
+    let isIFSCValid = true; //make it true when activate verification
     let isPincode = false  // Track the validity of IFSC
 
     function getIFSC(ifscCode) {
@@ -250,7 +250,7 @@
                     document.getElementById("ifscStatus").innerHTML = "Not verified";
                     document.getElementById("ifscStatus").style.color = "red";
                     document.getElementById("ifsc").style.borderColor = "red"; // Set border color to red
-                    isIFSCValid = false;  // Set IFSC as invalid
+                    isIFSCValid = true;  // Set IFSC as invalid //make it False when activate verification
                 }
             })
             .catch(error => {
@@ -258,7 +258,7 @@
                 document.getElementById("ifscStatus").innerHTML = "Not verified";
                 document.getElementById("ifscStatus").style.color = "red";
                 document.getElementById("ifsc").style.borderColor = "red"; // Set border color to red
-                isIFSCValid = false;  // Set IFSC as invalid
+                isIFSCValid = true;  // Set IFSC as invalid //make it False when activate verification
             });
     }
 

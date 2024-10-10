@@ -1,13 +1,40 @@
 {% autoescape off %}
- Hi {{user.first_name}} ,
- 
- Congratulations!!!!!
- Your  ADCOS E-COMMERCE COMPANY Account is Activated
- Id Number : {{user_id}}
+<html>
+  <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 10px; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+      
+      <h2 style="color: #333333; text-align: center;">Your Account is Activated!</h2>
+      
+      <p style="font-size: 16px; color: #555555;">
+        Hi <strong>{{ user.first_name }}</strong>,
+      </p>
+      
+      <p style="font-size: 16px; color: #555555; line-height: 1.6;">
+        Congratulations! Your <strong>ADCOS E-COMMERCE COMPANY</strong> account is now active.
+      </p>
+      
+      <div style="background-color: #f0f8ff; padding: 10px; border-radius: 5px; margin: 20px 0;">
+        <p style="font-size: 16px; color: #007bff; text-align: center;">
+          <strong>ID Number:</strong> {{ user_id }}
+        </p>
+        <p style="font-size: 14px; color: #555555; text-align: center;">
+          You can use this ID number as your username to log in.
+        </p>
+      </div>
+      
+      <p style="font-size: 16px; color: #555555; line-height: 1.6;">
+        We wish you a happy shopping experience!
+      </p>
 
- You can Use your ID Number As Username to login
- 
-  Happy shopping...
-    ADCOS.in
-  
-  {% endautoescape %}
+      <p style="font-size: 16px; text-align: center; color: #007bff;">
+        <strong>ADCOS.in</strong>
+      </p>
+
+      <footer style="text-align: center; margin-top: 30px; font-size: 12px; color: #999999;">
+        <p>ADCOS.in - Your Trusted E-Commerce Platform</p>
+        <p>&copy; {{ current_year }} ADCOS E-Commerce. All Rights Reserved.</p>
+      </footer>
+    </div>
+  </body>
+</html>
+{% endautoescape %}

@@ -64,7 +64,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     
     date_joined = models.DateTimeField(auto_now_add=True, verbose_name='date joined')
     parent = models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True, verbose_name='parent')
-    pancard = models.CharField(max_length=20, unique=True, verbose_name='PAN card')
+    pancard = models.CharField(max_length=20, verbose_name='PAN card')
 
     objects = CustomUserManager()
 
